@@ -1,0 +1,65 @@
+.food-card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: 0.25s;
+    background: white;
+}
+
+.food-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+.food-card img {
+    height: 220px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+.store {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.price {
+    margin: 10px 0;
+}
+
+.original {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.rescue {
+    color: #27ae60;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #e74c3c;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.countdown {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #e67e22;
+}

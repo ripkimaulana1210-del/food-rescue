@@ -1,0 +1,16 @@
+#map {
+    height: 400px;
+    margin-top: 20px;
+}
+
+body {
+    background: #f4f6f8;
+}
+
+.container {
+    max-width: 600px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
