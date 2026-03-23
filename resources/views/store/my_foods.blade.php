@@ -1,102 +1,87 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/my-foods.css') }}">
+@endsection
+
 @section('content')
-    <div class="d-flex justify-content-between mb-4">
 
-        <h2>Produk Saya</h2>
+<div class="myfoods-header">
+    <h2>Produk Saya 🍱</h2>
 
-        <a href="/sell" class="btn btn-success">
-            + Jual Makanan
-        </a>
+    <a href="/sell" class="btn btn-primary">
+        + Jual Makanan
+    </a>
+</div>
 
-    </div>
+<div class="foods-grid">
 
-    <div class="row">
+    @forelse($foods as $food)
+        <div class="food-card">
 
-        @forelse($foods as $food)
-            <div class="col-md-4 mb-4">
+            <!-- IMAGE -->
+            <div class="card-img-box">
+                <img src="{{ asset('storage/' . $food->image) }}">
+            </div>
 
-                <div class="card h-100 shadow-sm">
+            <!-- CONTENT -->
+            <div class="card-info">
 
-                    {{-- FOTO MAKANAN --}}
-                    <img src="{{ asset('storage/' . $food->image) }}" class="card-img-top"
-                        style="height:200px;object-fit:cover;">
+                <h3>{{ $food->food_name }}</h3>
 
-                    <div class="card-body">
+                <p class="store">🏪 {{ $food->store_name }}</p>
 
-                        {{-- NAMA MAKANAN --}}
-                        <h5 class="card-title">{{ $food->food_name }}</h5>
+                <p class="old-price">
+                    Rp {{ number_format($food->original_price) }}
+                </p>
 
-                        {{-- NAMA TOKO --}}
-                        <p class="text-muted mb-1">
-                            🏪 {{ $food->store_name }}
-                        </p>
+                <p class="new-price">
+                    Rp {{ number_format($food->rescue_price) }}
+                </p>
 
-                        {{-- HARGA --}}
-                        <p class="mb-1">
-                            <del class="text-muted">
-                                Rp {{ number_format($food->original_price) }}
-                            </del>
-                        </p>
+                <p>🍽 {{ $food->portions }} porsi</p>
 
-                        <h5 class="text-success">
-                            Rp {{ number_format($food->rescue_price) }}
-                        </h5>
+                <p class="location">📍 {{ $food->location }}</p>
 
-                        {{-- PORSI --}}
-                        <p>
-                            🍽 Porsi tersisa:
-                            <b>{{ $food->portions }}</b>
-                        </p>
-
-                        {{-- LOKASI --}}
-                        <p class="text-muted">
-                            📍 {{ $food->location }}
-                        </p>
-
-                        {{-- EXPIRED --}}
-                        <p class="text-danger">
-                            ⏰ Expired: {{ $food->expired_at }}
-                        </p>
-
-                    </div>
-
-                    {{-- AKSI --}}
-                    <div class="card-footer d-flex justify-content-between">
-
-                        <a href="/foods/{{ $food->id }}" class="btn btn-sm btn-primary">
-                            Detail
-                        </a>
-
-                        <a href="/foods/{{ $food->id }}/edit" class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
-                        <form action="/foods/{{ $food->id }}" method="POST">
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button class="btn btn-danger btn-sm">
-                                Hapus
-                            </button>
-
-                        </form>
-                        </form>
-
-                    </div>
-
-                </div>
+                <p class="expired">
+                    ⏰ {{ \Carbon\Carbon::parse($food->expired_at)->diffForHumans() }}
+                </p>
 
             </div>
 
-        @empty
+            <!-- ACTION -->
+            <div class="card-actions">
 
-            <div class="col-12">
-                <div class="alert alert-info">
-                    Kamu belum mengupload makanan.
-                </div>
+                <a href="/foods/{{ $food->id }}" class="btn btn-outline">
+                    Detail
+                </a>
+
+                <a href="/foods/{{ $food->id }}/edit" class="btn btn-warning">
+                    Edit
+                </a>
+
+                <form action="/foods/{{ $food->id }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <button class="btn btn-danger">
+                        Hapus
+                    </button>
+                </form>
+
             </div>
-        @endforelse
 
-    </div>
+        </div>
+
+    @empty
+
+        <div class="empty-state">
+            <p>Kamu belum upload makanan 😢</p>
+            <a href="/sell" class="btn btn-primary">Jual Sekarang</a>
+        </div>
+
+    @endforelse
+
+</div>
+
 @endsection

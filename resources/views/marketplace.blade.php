@@ -1,91 +1,82 @@
 @extends('layouts.app')
 
+@section('title', 'Marketplace')
+
 @section('css')
-    <link rel="stylesheet" href="/css/marketplace.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 @endsection
 
 @section('content')
-    <h2 class="mb-4">Marketplace Makanan Surplus</h2>
 
-    <div class="row">
+<h2 class="marketplace-title">Marketplace Makanan Surplus</h2>
 
-        @foreach ($foods as $food)
-            <div class="col-md-4 mb-4">
+<div class="marketplace-page">
 
-                <div class="card food-card">
+<div class="product-grid">
 
-                    <div class="position-relative">
+@foreach ($foods as $food)
+<div class="product-card">
 
-                        @if ($food->image)
-                            <img src="{{ asset('storage/' . $food->image) }}">
-                        @endif
+    <div class="card-img-box">
 
-                        <span class="discount-badge">
+        <img src="{{ asset('storage/' . $food->image) }}">
 
-                            -{{ round((($food->original_price - $food->rescue_price) / $food->original_price) * 100) }}%
+        <span class="tag tag-red">
+            -{{ round((($food->original_price - $food->rescue_price) / $food->original_price) * 100) }}%
+        </span>
 
-                        </span>
-
-                    </div>
-
-                    <div class="card-body">
-
-                        <h5>{{ $food->food_name }}</h5>
-
-                        <p class="store">🏪 {{ $food->store_name }}</p>
-                        <p>🍱 {{ $food->portions }} porsi tersisa</p>
-
-                        <p class="price">
-
-                            <span class="original">
-                                Rp {{ number_format($food->original_price) }}
-                            </span>
-
-                            <span class="rescue">
-                                Rp {{ number_format($food->rescue_price) }}
-                            </span>
-
-                        </p>
-
-                        <p class="countdown" data-expired="{{ $food->expired_at }}">
-                            Loading...
-                        </p>
-
-                        @if ($food->status == 'sold_out')
-                            <span class="badge bg-danger">
-                                Sold Out
-                            </span>
-                        @endif
-
-                        <a href="/foods/{{ $food->id }}" class="btn btn-success w-100">
-                            Lihat Detail
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-        @endforeach
+        @if ($food->status == 'sold_out')
+        <span class="tag tag-green">Sold Out</span>
+        @endif
 
     </div>
 
+    <div class="card-info">
 
-    <h3>Lokasi Produk</h3>
+        <p class="store-name">🏪 {{ $food->store_name }}</p>
 
-    <div id="map"></div>
+        <h3>{{ $food->food_name }}</h3>
+
+        <p>🍱 {{ $food->portions }} porsi tersisa</p>
+
+        <div class="price-wrap">
+            <span class="old-price">
+                Rp {{ number_format($food->original_price) }}
+            </span>
+
+            <span class="new-price">
+                Rp {{ number_format($food->rescue_price) }}
+            </span>
+        </div>
+
+        <p class="countdown">Loading...</p>
+
+        <a href="/foods/{{ $food->id }}" class="btn btn-primary btn-full">
+            Lihat Detail
+        </a>
+
+    </div>
+
+</div>
+@endforeach
+
+</div>
+
+</div>
+
+<h3 style="text-align:center; margin-top:2rem;">Lokasi Produk</h3>
+
+<div id="map"></div>
+
 @endsection
 
 
 @section('js')
-    <script>
-        const foods = @json($foods);
-    </script>
+<script>
+    const foods = @json($foods);
+</script>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <script src="/js/map.js"></script>
-
-    <script src="/js/marketplace.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="{{ asset('js/map.js') }}"></script>
+<script src="{{ asset('js/marketplace.js') }}"></script>
 @endsection

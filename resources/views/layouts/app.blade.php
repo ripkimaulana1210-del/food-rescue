@@ -1,65 +1,87 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Food Rescue')</title>
 
-    <title>Food Rescue</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/global.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 
     @yield('css')
-
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-success">
 
-        <div class="container">
+<!-- NAVBAR -->
+<nav>
+    <div class="nav-container">
 
-            <a class="navbar-brand" href="/">Food Rescue</a>
+        <!-- LOGO -->
+        <a href="/" class="logo">🍔 Food<span>Rescue.</span></a>
 
-            <div>
+        <!-- RIGHT SIDE -->
+        <div class="nav-right">
 
-                <a href="/" class="btn btn-light">Home</a>
+            <!-- MENU UTAMA -->
+            <ul class="nav-menu">
+                <li>
+                    <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
+                        Beranda
+                    </a>
+                </li>
 
-                <a href="/foods" class="btn btn-light">Marketplace</a>
+                <li>
+                    <a href="/foods" class="{{ request()->is('foods') ? 'active' : '' }}">
+                        Marketplace
+                    </a>
+                </li>
 
                 @auth
-
-                    @if (Auth::user()->role == 'store')
-                        <a href="/my-foods" class="btn btn-light">Produk Saya</a>
+                    @if(auth()->user()->role == 'store')
+                        <li><a href="/my-foods">Produk Saya</a></li>
                     @endif
-                    <a href="/dashboard" class="btn btn-light">Dashboard</a>
 
-                    <a href="/logout" class="btn btn-danger">Logout</a>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                @endauth
+            </ul>
 
+            <!-- AUTH DIPISAH -->
+            <div class="nav-auth">
+
+                @auth
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button class="btn btn-primary">
+                            Logout
+                        </button>
+                    </form>
                 @endauth
 
-
                 @guest
-
-                    <a href="/login" class="btn btn-light">Login</a>
-
-                    <a href="/register" class="btn btn-warning">Register</a>
-
+                    <a href="/login" class="btn btn-outline">Masuk</a>
+                    <a href="/register" class="btn btn-primary">Daftar</a>
                 @endguest
 
             </div>
 
         </div>
 
-    </nav>
-
-    <div class="container mt-5">
-
-        @yield('content')
-
     </div>
+</nav>
 
-    @yield('js')
+<!-- CONTENT -->
+@yield('content')
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; {{ date('Y') }} Food Rescue</p>
+</footer>
+
+@yield('js')
 
 </body>
-
 </html>

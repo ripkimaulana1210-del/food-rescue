@@ -1,65 +1,145 @@
+/* === MARKETPLACE PAGE === */
+
+/* TITLE */
+h2 {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* GRID (ganti row + col bootstrap) */
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 0 5% 4rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* CARD */
 .food-card {
-    border: none;
-    border-radius: 18px;
+    background: var(--white);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    transition: 0.25s;
-    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
 }
 
 .food-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
+/* IMAGE */
 .food-card img {
-    height: 220px;
     width: 100%;
+    height: 200px;
     object-fit: cover;
 }
 
+/* DISCOUNT BADGE */
+.discount-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--red);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* CARD BODY */
 .card-body {
-    padding: 18px;
+    padding: 1.5rem;
 }
 
+/* TITLE */
+.card-body h5 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* STORE */
 .store {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 6px;
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
 }
 
+/* PRICE */
 .price {
-    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1rem 0;
 }
 
 .original {
     text-decoration: line-through;
-    color: #999;
-    font-size: 14px;
-    margin-right: 8px;
+    color: #aaa;
+    font-size: 0.9rem;
 }
 
 .rescue {
-    color: #27ae60;
-    font-size: 22px;
-    font-weight: 700;
+    color: var(--orange);
+    font-size: 1.3rem;
+    font-weight: 800;
 }
 
-.discount-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: #e74c3c;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
+/* COUNTDOWN */
 .countdown {
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #e67e22;
+    font-size: 0.9rem;
+    color: var(--red);
+    margin-bottom: 1rem;
+}
+
+/* BUTTON */
+.btn-success {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--green);
+    color: white;
+    padding: 0.8rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-success:hover {
+    background: #5A9240;
+}
+
+/* SOLD OUT */
+.badge.bg-danger {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
+
+/* MAP */
+#map {
+    width: 90%;
+    height: 400px;
+    margin: 2rem auto;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
 }
