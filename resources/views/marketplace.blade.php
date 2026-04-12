@@ -8,65 +8,72 @@
 
 @section('content')
 
-<h2 class="marketplace-title">Marketplace Makanan Surplus</h2>
+<h2 class="marketplace-title">
+    Marketplace Makanan Surplus
+</h2>
 
 <div class="marketplace-page">
 
-<div class="product-grid">
+    <div class="product-grid">
 
-@foreach ($foods as $food)
-<div class="product-card">
+        @foreach ($foods as $food)
+        <div class="product-card">
 
-    <div class="card-img-box">
+            <div class="card-img-box">
+                <img src="{{ asset('storage/' . $food->image) }}">
 
-        <img src="{{ asset('storage/' . $food->image) }}">
+                <span class="tag tag-red">
+                    -{{ round((($food->original_price - $food->rescue_price) / $food->original_price) * 100) }}%
+                </span>
 
-        <span class="tag tag-red">
-            -{{ round((($food->original_price - $food->rescue_price) / $food->original_price) * 100) }}%
-        </span>
+                @if ($food->status == 'sold_out')
+                <span class="tag tag-green">
+                    Sold Out
+                </span>
+                @endif
+            </div>
 
-        @if ($food->status == 'sold_out')
-        <span class="tag tag-green">Sold Out</span>
-        @endif
+            <div class="card-info">
 
-    </div>
+                <p class="store-name">
+                    🏪 {{ $food->store_name }}
+                </p>
 
-    <div class="card-info">
+                <h3>
+                    {{ $food->food_name }}
+                </h3>
 
-        <p class="store-name">🏪 {{ $food->store_name }}</p>
+                <p>
+                    🍱 {{ $food->portions }} porsi tersisa
+                </p>
 
-        <h3>{{ $food->food_name }}</h3>
+                <div class="price-wrap">
+                    <span class="old-price">
+                        Rp {{ number_format($food->original_price) }}
+                    </span>
 
-        <p>🍱 {{ $food->portions }} porsi tersisa</p>
+                    <span class="new-price">
+                        Rp {{ number_format($food->rescue_price) }}
+                    </span>
+                </div>
 
-        <div class="price-wrap">
-            <span class="old-price">
-                Rp {{ number_format($food->original_price) }}
-            </span>
+                <p class="countdown"
+                    data-expired="{{ \Carbon\Carbon::parse($food->expired_at)->format('Y-m-d H:i:s') }}">
+                    ⏳ Memuat...
+                </p>
 
-            <span class="new-price">
-                Rp {{ number_format($food->rescue_price) }}
-            </span>
+                <a href="/foods/{{ $food->id }}" class="btn btn-primary btn-full">
+                    Lihat Detail
+                </a>
+
+            </div>
+
         </div>
-
-        <p class="countdown">Loading...</p>
-
-        <a href="/foods/{{ $food->id }}" class="btn btn-primary btn-full">
-            Lihat Detail
-        </a>
+        @endforeach
 
     </div>
 
 </div>
-@endforeach
-
-</div>
-
-</div>
-
-<h3 style="text-align:center; margin-top:2rem;">Lokasi Produk</h3>
-
-<div id="map"></div>
 
 @endsection
 
@@ -76,7 +83,8 @@
     const foods = @json($foods);
 </script>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+{{-- ✅ Tambah ini SEBELUM marketplace.js --}}
 <script src="{{ asset('js/map.js') }}"></script>
+
 <script src="{{ asset('js/marketplace.js') }}"></script>
 @endsection

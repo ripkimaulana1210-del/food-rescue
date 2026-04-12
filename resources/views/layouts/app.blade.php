@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,78 +11,82 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-
     @yield('css')
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav>
-    <div class="nav-container">
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-container">
 
-        <!-- LOGO -->
-        <a href="/" class="logo">🍔 Food<span>Rescue.</span></a>
+            <!-- LOGO -->
+            <a href="/" class="logo">🍔 Food<span>Rescue.</span></a>
 
-        <!-- RIGHT SIDE -->
-        <div class="nav-right">
+            <!-- RIGHT SIDE -->
+            <div class="nav-right">
 
-            <!-- MENU UTAMA -->
-            <ul class="nav-menu">
-                <li>
-                    <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
-                        Beranda
-                    </a>
-                </li>
+                <!-- MENU UTAMA -->
+                <ul class="nav-menu">
 
-                <li>
-                    <a href="/foods" class="{{ request()->is('foods') ? 'active' : '' }}">
-                        Marketplace
-                    </a>
-                </li>
+                    <!-- PUBLIC -->
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="/foods">Marketplace</a></li>
 
-                @auth
+                    @auth
+
+                    {{-- USER --}}
+                    <!-- @if(auth()->user()->role == 'user')
+                    <li><a href="/checkout">Checkout</a></li>
+                    @endif -->
+
+                    {{-- STORE --}}
                     @if(auth()->user()->role == 'store')
-                        <li><a href="/my-foods">Produk Saya</a></li>
+                    <li><a href="/my-foods">Produk Saya</a></li>
+                    <li><a href="/pesanan">Pesanan</a></li>
                     @endif
 
-                    <li><a href="/dashboard">Dashboard</a></li>
-                @endauth
-            </ul>
+                    @endauth
 
-            <!-- AUTH DIPISAH -->
-            <div class="nav-auth">
+                </ul>
 
-                @auth
+                <!-- AUTH DIPISAH -->
+                <div class="nav-auth">
+
+                    @auth
                     <form action="/logout" method="POST">
                         @csrf
                         <button class="btn btn-primary">
                             Logout
                         </button>
                     </form>
-                @endauth
+                    @endauth
 
-                @guest
+                    @guest
                     <a href="/login" class="btn btn-outline">Masuk</a>
                     <a href="/register" class="btn btn-primary">Daftar</a>
-                @endguest
+                    @endguest
+
+                </div>
 
             </div>
 
         </div>
+    </nav>
 
-    </div>
-</nav>
+    <!-- CONTENT -->
+    <main class="main-content">
+        @yield('content')
+    </main>
 
-<!-- CONTENT -->
-@yield('content')
 
-<!-- FOOTER -->
-<footer>
-    <p>&copy; {{ date('Y') }} Food Rescue</p>
-</footer>
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; {{ date('Y') }} Food Rescue</p>
+    </footer>
 
-@yield('js')
+    @yield('js')
 
 </body>
+
 </html>

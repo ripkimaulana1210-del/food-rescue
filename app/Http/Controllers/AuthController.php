@@ -27,7 +27,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ])) {
-            return redirect('/dashboard');
+            return redirect('/pesanan');
         }
 
         return back()->with('error', 'Login gagal');

@@ -1,0 +1,100 @@
+/* TITLE */
+.orders-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+/* CONTAINER */
+.orders-container {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* CARD */
+.order-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 18px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    transition: 0.25s;
+    border: 1px solid #f2f2f2;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+/* LEFT */
+.order-left h3 {
+    margin-bottom: 6px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.buyer {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* INFO (tengah) */
+.order-info {
+    display: flex;
+    gap: 40px;
+}
+
+.order-box {
+    text-align: center;
+}
+
+.order-box p {
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-bottom: 3px;
+}
+
+.order-box strong {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* RIGHT */
+.order-right {
+    text-align: right;
+}
+
+/* STATUS */
+.status {
+    padding: 8px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* PAID */
+.status.paid {
+    background: rgba(111, 175, 79, 0.15);
+    color: #6FAF4F;
+}
+
+/* EMPTY */
+.empty-box {
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    color: #888;
+}

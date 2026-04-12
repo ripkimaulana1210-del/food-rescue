@@ -11,10 +11,12 @@ use App\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [FoodController::class, 'home']);
+Route::get('/', [FoodController::class, 'home'])->name('home');
 
-Route::get('/foods', [FoodController::class, 'index']);
-Route::get('/foods/{id}', [FoodController::class, 'show']);
+Route::prefix('foods')->group(function () {
+    Route::get('/', [FoodController::class, 'index'])->name('foods.index');
+    Route::get('/{id}', [FoodController::class, 'show'])->name('foods.show');
+});
 
 
 /*
@@ -23,13 +25,13 @@ Route::get('/foods/{id}', [FoodController::class, 'show']);
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', [AuthController::class, 'loginForm']);
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/register', [AuthController::class, 'registerForm']);
+Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 /*
@@ -38,9 +40,11 @@ Route::get('/logout', [AuthController::class, 'logout']);
 |--------------------------------------------------------------------------
 */
 
-Route::post('/foods/buy/{id}', [FoodController::class, 'buy']);
-Route::post('/foods/checkout/{id}', [FoodController::class, 'checkout']);
-Route::post('/foods/pay/{id}', [FoodController::class, 'pay']);
+Route::prefix('foods')->group(function () {
+    Route::post('/buy/{id}', [FoodController::class, 'buy'])->name('foods.buy');
+    Route::post('/checkout/{id}', [FoodController::class, 'checkout'])->name('foods.checkout');
+    Route::post('/pay/{id}', [FoodController::class, 'pay'])->name('foods.pay');
+});
 
 
 /*
@@ -51,34 +55,20 @@ Route::post('/foods/pay/{id}', [FoodController::class, 'pay']);
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/sell', [FoodController::class, 'create']);
-    Route::post('/sell', [FoodController::class, 'store']);
+    /* SELL */
+    Route::get('/sell', [FoodController::class, 'create'])->name('foods.create');
+    Route::post('/sell', [FoodController::class, 'store'])->name('foods.store');
 
-    Route::get('/my-foods', [FoodController::class, 'myFoods']);
+    /* MY FOODS */
+    Route::get('/my-foods', [FoodController::class, 'myFoods'])->name('foods.my');
 
-    Route::get('/dashboard', function () {
-
-        if (Auth::user()->role == "admin") {
-            return view('admin.dashboard');
-        }
-
-        if (Auth::user()->role == "store") {
-            return view('store.dashboard');
-        }
-
-        return view('home');
+    /* FOOD MANAGEMENT */
+    Route::prefix('foods')->group(function () {
+        Route::get('/{id}/edit', [FoodController::class, 'edit'])->name('foods.edit');
+        Route::put('/{id}', [FoodController::class, 'update'])->name('foods.update');
+        Route::delete('/{id}', [FoodController::class, 'destroy'])->name('foods.delete');
     });
-});
 
-Route::middleware('auth')->group(function () {
-
-    Route::get('/sell', [FoodController::class, 'create']);
-    Route::post('/foods', [FoodController::class, 'store']);
-
-    Route::get('/my-foods', [FoodController::class, 'myFoods']);
-
-    Route::get('/foods/{id}/edit', [FoodController::class, 'edit']);
-    Route::put('/foods/{id}', [FoodController::class, 'update']);
-
-    Route::delete('/foods/{id}', [FoodController::class, 'destroy']);
+    /* 🔥 PESANAN (FIX PENTING) */
+    Route::get('/pesanan', [FoodController::class, 'pesanan'])->name('pesanan');
 });

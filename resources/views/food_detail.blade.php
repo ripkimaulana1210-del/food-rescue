@@ -5,64 +5,93 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 @endsection
 
-
 @section('content')
-    <h2>Detail Makanan</h2>
 
-    <div class="card">
+<div class="detail-container">
 
+    <div class="detail-card">
 
-        <div class="card-body">
-
-            <p><strong>Toko:</strong> {{ $food->store_name }}</p>
-
-            <p><strong>Makanan:</strong> {{ $food->food_name }}</p>
+        <!-- IMAGE -->
+        <div class="detail-image">
             @if ($food->image)
-                <img src="{{ asset('storage/' . $food->image) }}" class="img-fluid mb-3" style="border-radius:10px;">
+                <img src="{{ asset('storage/' . $food->image) }}">
             @endif
 
-            <p><strong>Porsi:</strong> {{ $food->portions }}</p>
+            @if ($food->status == 'sold_out')
+                <span class="badge sold">Sold Out</span>
+            @endif
+        </div>
 
-            <p><strong>Lokasi:</strong> {{ $food->location }}</p>
+        <!-- INFO -->
+        <div class="detail-info">
 
-            <a href="/foods" class="btn btn-secondary">
-                Kembali
-            </a>
+            <p class="store">🏪 {{ $food->store_name }}</p>
 
-            @if ($food->portions > 0)
-                <form action="/foods/checkout/{{ $food->id }}" method="POST">
+            <h2>{{ $food->food_name }}</h2>
 
-                    @csrf
+            <p class="portion">🍱 {{ $food->portions }} porsi tersisa</p>
 
-                    <input type="number" name="qty" min="1" max="{{ $food->portions }}" value="1"
-                        class="form-control mb-3">
+            <!-- PRICE -->
+            <div class="price">
+                <span class="original">
+                    Rp {{ number_format($food->original_price) }}
+                </span>
 
-                    <button class="btn btn-success">
-                        Checkout
+                <span class="rescue">
+                    Rp {{ number_format($food->rescue_price) }}
+                </span>
+            </div>
+
+            <p class="location">📍 {{ $food->location }}</p>
+
+            <!-- ACTION -->
+            <div class="actions">
+
+                <a href="/foods" class="btn btn-outline">
+                    ← Kembali
+                </a>
+
+                @if ($food->portions > 0)
+                    <form action="/foods/checkout/{{ $food->id }}" method="POST">
+                        @csrf
+
+                        <input type="number" name="qty"
+                            min="1"
+                            max="{{ $food->portions }}"
+                            value="1"
+                            class="qty-input">
+
+                        <button class="btn btn-primary">
+                            Checkout
+                        </button>
+                    </form>
+                @else
+                    <button class="btn btn-danger" disabled>
+                        Habis
                     </button>
+                @endif
 
-                </form>
-            @else
-                <button class="btn btn-danger" disabled>
-                    Habis
-                </button>
-            @endif
+            </div>
+
         </div>
 
     </div>
 
-    <h3>Lokasi</h3>
-
+    <!-- MAP -->
+    <h3 class="map-title">Lokasi</h3>
     <div id="map"></div>
+
+</div>
+
 @endsection
 
 
 @section('js')
-    <script>
-        const food = @json($food);
-    </script>
+<script>
+    const food = @json($food);
+</script>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="/js/map.js"></script>
-    <script src="/js/detail.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="/js/map.js"></script>
+<script src="/js/detail.js"></script>
 @endsection

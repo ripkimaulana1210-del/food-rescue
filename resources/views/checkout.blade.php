@@ -1,58 +1,103 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+@endsection
+
 @section('content')
-    <h2>Checkout</h2>
 
-    <div class="card p-4">
+<div class="checkout-wrapper">
 
-        <h4>{{ $food->food_name }}</h4>
+    <h2 class="checkout-title">Checkout</h2>
 
-        <p>🏪 {{ $food->store_name }}</p>
+    <div class="checkout-container">
 
-        <p>Jumlah porsi: {{ $qty }}</p>
+        <!-- ORDER SUMMARY -->
+        <div class="checkout-card order-summary">
 
-        <h3 class="text-success">
-            Rp {{ number_format($food->rescue_price * $qty) }}
-        </h3>
+            <h4 class="section-title">Ringkasan Pesanan</h4>
 
-        <hr>
-
-        <h5>Pilih Metode Pembayaran</h5>
-
-        <form action="/foods/pay/{{ $food->id }}" method="POST">
-
-            @csrf
-
-            <input type="hidden" name="qty" value="{{ $qty }}">
-
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="payment" value="qris" required>
-                <label class="form-check-label">
-                    QRIS
-                </label>
+            <div class="food-info">
+                <div class="food-detail">
+                    <h3>{{ $food->food_name }}</h3>
+                    <p class="store-name">🏪 {{ $food->store_name }}</p>
+                </div>
             </div>
 
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="payment" value="transfer">
-                <label class="form-check-label">
-                    Transfer Bank
-                </label>
+            <div class="order-detail">
+                <div class="order-row">
+                    <span>Harga per porsi</span>
+                    <span>Rp {{ number_format($food->rescue_price) }}</span>
+                </div>
+                <div class="order-row">
+                    <span>Jumlah porsi</span>
+                    <span>{{ $qty }} porsi</span>
+                </div>
+                <div class="order-divider"></div>
+                <div class="order-row total">
+                    <span>Total</span>
+                    <span class="total-price">Rp {{ number_format($food->rescue_price * $qty) }}</span>
+                </div>
             </div>
 
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="payment" value="cash">
-                <label class="form-check-label">
-                    Cash on Pickup
-                </label>
-            </div>
+        </div>
 
-            <br>
+        <!-- PAYMENT -->
+        <div class="checkout-card payment-card">
 
-            <button class="btn btn-success">
-                Bayar Sekarang
-            </button>
+            <h4 class="section-title">Metode Pembayaran</h4>
 
-        </form>
+            <form action="/foods/pay/{{ $food->id }}" method="POST">
+                @csrf
+                <input type="hidden" name="qty" value="{{ $qty }}">
+
+                <div class="payment-options">
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="qris" required>
+                        <div class="payment-label">
+                            <span class="payment-icon">📱</span>
+                            <div>
+                                <p class="payment-name">QRIS</p>
+                                <p class="payment-desc">Scan & bayar langsung</p>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="transfer">
+                        <div class="payment-label">
+                            <span class="payment-icon">🏦</span>
+                            <div>
+                                <p class="payment-name">Transfer Bank</p>
+                                <p class="payment-desc">BCA, Mandiri, BNI, BRI</p>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="cash">
+                        <div class="payment-label">
+                            <span class="payment-icon">💵</span>
+                            <div>
+                                <p class="payment-name">Cash on Pickup</p>
+                                <p class="payment-desc">Bayar saat ambil pesanan</p>
+                            </div>
+                        </div>
+                    </label>
+
+                </div>
+
+                <button type="submit" class="btn-pay">
+                    Bayar Sekarang
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
+
+</div>
+
 @endsection
