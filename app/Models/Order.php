@@ -14,7 +14,8 @@ class Order extends Model
         'food_id',
         'qty',
         'total_price',
-        'status'
+        'status',
+        'order_code' // 🔥 TAMBAHKAN INI
     ];
 
     // relasi ke user

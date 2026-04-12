@@ -7,7 +7,8 @@
     <title>@yield('title', 'Food Rescue')</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
@@ -30,41 +31,39 @@
                 <ul class="nav-menu">
 
                     <!-- PUBLIC -->
-                    <li><a href="/">Beranda</a></li>
-                    <li><a href="/foods">Marketplace</a></li>
-
+                    <li><a href="{{ route('home') }}">Beranda</a></li>
+                    <li><a href="{{ route('foods.index') }}">Marketplace</a></li>
                     @auth
 
-                    {{-- USER --}}
-                    <!-- @if(auth()->user()->role == 'user')
-                    <li><a href="/checkout">Checkout</a></li>
-                    @endif -->
+                        {{-- USER --}}
+                        @if (auth()->user()->role == 'user')
+                            <li><a href="{{ route('orders.index') }}">Pesanan Saya</a></li>
+                        @endif
 
-                    {{-- STORE --}}
-                    @if(auth()->user()->role == 'store')
-                    <li><a href="/my-foods">Produk Saya</a></li>
-                    <li><a href="/pesanan">Pesanan</a></li>
-                    @endif
+                        {{-- STORE --}}
+                        @if (auth()->user()->role == 'store')
+                            <li><a href="{{ route('foods.my') }}">Produk Saya</a></li>
+                            <li><a href="{{ route('store.orders') }}">Pesanan</a></li>
+                        @endif
 
                     @endauth
 
                 </ul>
-
                 <!-- AUTH DIPISAH -->
                 <div class="nav-auth">
 
                     @auth
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button class="btn btn-primary">
-                            Logout
-                        </button>
-                    </form>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button class="btn btn-primary">
+                                Logout
+                            </button>
+                        </form>
                     @endauth
 
                     @guest
-                    <a href="/login" class="btn btn-outline">Masuk</a>
-                    <a href="/register" class="btn btn-primary">Daftar</a>
+                        <a href="/login" class="btn btn-outline">Masuk</a>
+                        <a href="/register" class="btn btn-primary">Daftar</a>
                     @endguest
 
                 </div>

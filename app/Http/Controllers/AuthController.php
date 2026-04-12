@@ -27,7 +27,17 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ])) {
-            return redirect('/pesanan');
+            if (Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password
+            ])) {
+
+                if (auth()->user()->role == 'store') {
+                    return redirect('/pesanan'); // store
+                } else {
+                    return redirect('/my-orders'); // user
+                }
+            }
         }
 
         return back()->with('error', 'Login gagal');

@@ -12,7 +12,7 @@
 
     <div class="checkout-container">
 
-        <!-- ORDER SUMMARY -->
+        <!-- ================= ORDER SUMMARY ================= -->
         <div class="checkout-card order-summary">
 
             <h4 class="section-title">Ringkasan Pesanan</h4>
@@ -29,30 +29,38 @@
                     <span>Harga per porsi</span>
                     <span>Rp {{ number_format($food->rescue_price) }}</span>
                 </div>
+
                 <div class="order-row">
                     <span>Jumlah porsi</span>
                     <span>{{ $qty }} porsi</span>
                 </div>
+
                 <div class="order-divider"></div>
+
                 <div class="order-row total">
                     <span>Total</span>
-                    <span class="total-price">Rp {{ number_format($food->rescue_price * $qty) }}</span>
+                    <span class="total-price">
+                        Rp {{ number_format($food->rescue_price * $qty) }}
+                    </span>
                 </div>
             </div>
 
         </div>
 
-        <!-- PAYMENT -->
+        <!-- ================= PAYMENT ================= -->
         <div class="checkout-card payment-card">
 
             <h4 class="section-title">Metode Pembayaran</h4>
 
-            <form action="/foods/pay/{{ $food->id }}" method="POST">
+            <form action="{{ route('orders.store', $food->id) }}" method="POST">
                 @csrf
+
+                <!-- hidden -->
                 <input type="hidden" name="qty" value="{{ $qty }}">
 
                 <div class="payment-options">
 
+                    <!-- QRIS -->
                     <label class="payment-option">
                         <input type="radio" name="payment" value="qris" required>
                         <div class="payment-label">
@@ -64,6 +72,7 @@
                         </div>
                     </label>
 
+                    <!-- TRANSFER -->
                     <label class="payment-option">
                         <input type="radio" name="payment" value="transfer">
                         <div class="payment-label">
@@ -75,6 +84,7 @@
                         </div>
                     </label>
 
+                    <!-- CASH -->
                     <label class="payment-option">
                         <input type="radio" name="payment" value="cash">
                         <div class="payment-label">

@@ -17,18 +17,18 @@ class FoodController extends Controller
     public function index()
     {
         $foods = Food::latest()->get();
-        return view('marketplace', compact('foods'));
+        return view('foods.marketplace', compact('foods'));
     }
 
     public function show($id)
     {
         $food = Food::findOrFail($id);
-        return view('food_detail', compact('food'));
+        return view('foods.food_detail', compact('food'));
     }
 
     public function create()
     {
-        return view('store.sell');
+        return view('foods.sell');
     }
 
     public function store(Request $request)
@@ -81,52 +81,19 @@ class FoodController extends Controller
         $food = Food::findOrFail($id);
         $qty = $request->qty;
 
-        return view('checkout', compact('food', 'qty'));
-    }
-
-    public function pay(Request $request, $id)
-    {
-        $food = Food::findOrFail($id);
-
-        $qty = $request->qty;
-
-        if ($qty > $food->portions) {
-            return redirect()->back()->with('error', 'Porsi tidak cukup');
-        }
-
-        // kurangi stok
-        $food->portions -= $qty;
-
-        if ($food->portions <= 0) {
-            $food->status = 'sold_out';
-        }
-
-        $food->save();
-
-        // 🔥 SIMPAN ORDER
-        Order::create([
-            'user_id' => auth()->id(),
-            'food_id' => $food->id,
-            'qty' => $qty,
-            'total_price' => $qty * $food->rescue_price,
-            'status' => 'paid'
-        ]);
-
-        $payment = $request->payment;
-
-        return view('payment_success', compact('food', 'qty', 'payment'));
+        return view('orders.checkout', compact('food', 'qty'));
     }
 
     public function myFoods()
     {
         $foods = Food::where('user_id', Auth::id())->get();
-        return view('store.my_foods', compact('foods'));
+        return view('foods.my_foods', compact('foods'));
     }
 
     public function edit($id)
     {
         $food = Food::findOrFail($id);
-        return view('store.edit_food', compact('food'));
+        return view('foods.edit_food', compact('food'));
     }
 
     public function update(Request $request, $id)

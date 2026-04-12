@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,6 @@ Route::prefix('foods')->group(function () {
     Route::get('/{id}', [FoodController::class, 'show'])->name('foods.show');
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | AUTH
@@ -31,8 +30,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/logout', [AuthController::class, 'logout']);
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -41,11 +39,13 @@ Route::get('/logout', [AuthController::class, 'logout']);
 */
 
 Route::prefix('foods')->group(function () {
-    Route::post('/buy/{id}', [FoodController::class, 'buy'])->name('foods.buy');
-    Route::post('/checkout/{id}', [FoodController::class, 'checkout'])->name('foods.checkout');
-    Route::post('/pay/{id}', [FoodController::class, 'pay'])->name('foods.pay');
-});
 
+    // ambil makanan langsung
+    Route::post('/buy/{id}', [FoodController::class, 'buy'])->name('foods.buy');
+
+    // tampilkan halaman checkout
+    Route::post('/checkout/{id}', [FoodController::class, 'checkout'])->name('foods.checkout');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -55,20 +55,41 @@ Route::prefix('foods')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    /* SELL */
+    /* ===================== SELL ===================== */
     Route::get('/sell', [FoodController::class, 'create'])->name('foods.create');
     Route::post('/sell', [FoodController::class, 'store'])->name('foods.store');
 
-    /* MY FOODS */
+    /* ===================== MY FOODS ===================== */
     Route::get('/my-foods', [FoodController::class, 'myFoods'])->name('foods.my');
 
-    /* FOOD MANAGEMENT */
+    /* ===================== FOOD MANAGEMENT ===================== */
     Route::prefix('foods')->group(function () {
         Route::get('/{id}/edit', [FoodController::class, 'edit'])->name('foods.edit');
         Route::put('/{id}', [FoodController::class, 'update'])->name('foods.update');
         Route::delete('/{id}', [FoodController::class, 'destroy'])->name('foods.delete');
     });
 
-    /* 🔥 PESANAN (FIX PENTING) */
-    Route::get('/pesanan', [FoodController::class, 'pesanan'])->name('pesanan');
+    /* ===================== ORDER ===================== */
+
+    // 🔥 PROSES ORDER (PINDAH KE ORDER CONTROLLER)
+    Route::post('/orders/store/{id}', [OrderController::class, 'store'])
+        ->name('orders.store');
+
+    // 🔥 LIST PESANAN USER
+    Route::get('/my-orders', [OrderController::class, 'index'])
+        ->name('orders.index');
+
+    // 🔥 DETAIL PESANAN
+    Route::get('/orders/{id}', [OrderController::class, 'show'])
+        ->name('orders.show');
+
+    // 🔥 PESANAN MASUK (STORE)
+    Route::get('/pesanan', [FoodController::class, 'pesanan'])
+        ->name('store.orders');
 });
+
+Route::get('/scan', function () {
+    return view('orders.scan');
+})->middleware('auth')->name('orders.scan');
+
+Route::post('/scan', [OrderController::class, 'scan'])->name('orders.scan.process');
