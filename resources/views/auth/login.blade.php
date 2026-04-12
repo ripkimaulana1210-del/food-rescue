@@ -1,21 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Login</h3>
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
-    <form method="POST" action="/login">
+<div class="auth-wrapper">
+    <div class="auth-box">
 
-        @csrf
+        <div class="auth-header">
+            <h2>Selamat Datang</h2>
+            <p>Login untuk lanjut ke Food Rescue</p>
+        </div>
 
-        <input type="email" name="email" class="form-control mb-2" placeholder="Email">
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-        <input type="password" name="password" class="form-control mb-2" placeholder="Password">
+            <div class="input-group">
+                <input type="email" name="email" required>
+                <label>Email</label>
+            </div>
 
-        <button class="btn btn-success">Login</button>
+            <div class="input-group">
+                <input type="password" name="password" required>
+                <label>Password</label>
+            </div>
 
-    </form>
+            <button type="submit" class="btn-auth">Masuk</button>
+        </form>
 
-    <p class="mt-2">
-        Belum punya akun? <a href="/register">Register</a>
-    </p>
+        <p class="auth-switch">
+            Belum punya akun?
+            <a href="{{ route('register') }}">Daftar</a>
+        </p>
+
+    </div>
+</div>
 @endsection

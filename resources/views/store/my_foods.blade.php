@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="myfoods-header">
-    <h2>Produk Saya 🍱</h2>
+    <h2>Produk Saya</h2>
 
     <a href="/sell" class="btn btn-primary">
         + Jual Makanan
@@ -76,8 +76,10 @@
     @empty
 
         <div class="empty-state">
-            <p>Kamu belum upload makanan 😢</p>
-            <a href="/sell" class="btn btn-primary">Jual Sekarang</a>
+            <div class="empty-icon">🍱</div>
+            <h3>Belum ada produk</h3>
+            <p>Yuk mulai jual makanan surplus kamu!</p>
+            <a href="/sell" class="btn btn-primary">+ Jual Sekarang</a>
         </div>
 
     @endforelse

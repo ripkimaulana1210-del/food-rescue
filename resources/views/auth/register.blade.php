@@ -1,26 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Register</h3>
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
-    <form method="POST" action="/register">
+<div class="auth-wrapper">
+    <div class="auth-box">
 
-        @csrf
+        <div class="auth-header">
+            <h2>Buat Akun Baru</h2>
+            <p>Gabung dan mulai selamatkan makanan</p>
+        </div>
 
-        <input type="text" name="name" class="form-control mb-2" placeholder="Nama">
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <input type="email" name="email" class="form-control mb-2" placeholder="Email">
+            <div class="input-group">
+                <input type="text" name="name" required>
+                <label>Nama</label>
+            </div>
 
-        <input type="password" name="password" class="form-control mb-2" placeholder="Password">
+            <div class="input-group">
+                <input type="email" name="email" required>
+                <label>Email</label>
+            </div>
 
-        <select name="role" class="form-control mb-2">
+            <div class="input-group">
+                <input type="password" name="password" required>
+                <label>Password</label>
+            </div>
 
-            <option value="user">User</option>
-            <option value="store">Store</option>
+            <div class="input-group">
+                <select name="role" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="user">User</option>
+                    <option value="store">Store</option>
+                </select>
+                <label>Pilih Role</label>
+            </div>
 
-        </select>
+            <button type="submit" class="btn-auth">Daftar</button>
+        </form>
 
-        <button class="btn btn-success">Register</button>
+        <p class="auth-switch">
+            Sudah punya akun? <a href="{{ route('login') }}">Login</a>
+        </p>
 
-    </form>
+    </div>
+</div>
 @endsection
