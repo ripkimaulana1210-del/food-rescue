@@ -86,6 +86,10 @@ Route::middleware('auth')->group(function () {
     // 🔥 PESANAN MASUK (STORE)
     Route::get('/pesanan', [FoodController::class, 'pesanan'])
         ->name('store.orders');
+
+    // 🔥 KONFIRMASI PEMBAYARAN
+    Route::post('/orders/confirm/{id}', [OrderController::class, 'confirm'])
+        ->name('orders.confirm');
 });
 
 Route::get('/scan', function () {

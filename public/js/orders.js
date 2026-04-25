@@ -1,4 +1,4 @@
-function showDetail(food, user, qty, total, code, id, status) {
+function showDetail(food, userOrStore, qty, total, code, id, status) {
 
     let statusText = '';
 
@@ -9,7 +9,7 @@ function showDetail(food, user, qty, total, code, id, status) {
 
     let html = `
         <p><b>Makanan:</b> ${food}</p>
-        <p><b>Pembeli:</b> ${user}</p>
+        <p><b>Toko / Pembeli:</b> ${userOrStore}</p>
         <p><b>Jumlah:</b> ${qty}</p>
         <p><b>Total:</b> Rp ${total}</p>
         <p><b>Kode Pesanan:</b> ${code}</p>

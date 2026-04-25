@@ -128,16 +128,20 @@ class FoodController extends Controller
         return redirect('/my-foods');
     }
 
-    public function pesanan()
+    public function pesanan(Request $request)
     {
+        $status = $request->get('status');
+
         $orders = Order::with(['food', 'user'])
-            ->where('status', 'paid')
             ->whereHas('food', function ($q) {
                 $q->where('user_id', auth()->id());
+            })
+            ->when($status, function ($query, $status) {
+                return $query->where('status', $status);
             })
             ->latest()
             ->get();
 
-        return view('store.pesanan', compact('orders'));
+        return view('store.pesanan', compact('orders', 'status'));
     }
 }

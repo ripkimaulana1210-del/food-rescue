@@ -2,41 +2,57 @@
 
 @section('title', 'Pesanan Saya')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
+@endsection
+
 @section('content')
 
 <div class="orders-wrapper">
     <div class="orders-container">
 
-        <h2 class="section-title">Pesanan Saya</h2>
+        <h2 class="orders-title">📦 Pesanan Saya</h2>
 
         @forelse ($orders as $order)
 
-        <div class="order-card">
+        <div class="order-card"
+            onclick="showDetail(
+                '{{ $order->food->food_name }}',
+                '{{ $order->food->store_name }}',
+                '{{ $order->qty }}',
+                '{{ number_format($order->total_price) }}',
+                '{{ $order->order_code }}',
+                '{{ $order->id }}',
+                '{{ $order->status }}'
+            )"
+            style="cursor:pointer;">
 
             <!-- LEFT -->
             <div class="order-left">
-
-                <img src="{{ asset('storage/' . $order->food->image) }}" alt="food">
-
+                <img src="{{ asset('storage/' . $order->food->image) }}" alt="{{ $order->food->food_name }}">
             </div>
 
-            <!-- CENTER -->
-            <div class="order-center">
+            <!-- INFO (tengah) -->
+            <div class="order-info">
 
-                <h3>{{ $order->food->food_name }}</h3>
-                <p class="store-name">🏪 {{ $order->food->store_name }}</p>
+                <div class="order-box">
+                    <p>Makanan</p>
+                    <strong>{{ $order->food->food_name }}</strong>
+                </div>
 
-                <p>Jumlah: <b>{{ $order->qty }}</b> porsi</p>
-                <p>Total: <b>Rp {{ number_format($order->total_price) }}</b></p>
+                <div class="order-box">
+                    <p>Jumlah</p>
+                    <strong>{{ $order->qty }}</strong>
+                </div>
 
-                <p class="date">
-                    {{ $order->created_at->format('d M Y H:i') }}
-                </p>
+                <div class="order-box">
+                    <p>Total</p>
+                    <strong>Rp {{ number_format($order->total_price) }}</strong>
+                </div>
 
-                <!-- 🔥 ORDER CODE -->
-                <div class="order-code">
-                    Kode Pesanan:
-                    <b>{{ $order->order_code ?? '-' }}</b>
+                <div class="order-box">
+                    <p>Kode Pesanan</p>
+                    <strong>{{ $order->order_code ?? '-' }}</strong>
                 </div>
 
             </div>
@@ -44,7 +60,20 @@
             <!-- RIGHT -->
             <div class="order-right">
 
-                <span class="status paid">✔ Paid</span>
+                @if ($order->status == 'paid')
+                    <span class="status paid">✔ Paid</span>
+                @elseif($order->status == 'process')
+                    <span class="status process">⏳ Diproses</span>
+                @elseif($order->status == 'done')
+                    <span class="status done">✅ Selesai</span>
+                @else
+                    <span class="status pending">⌛ Pending</span>
+                @endif
+
+                <div style="margin-top:10px;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ $order->order_code }}"
+                        alt="QR">
+                </div>
 
             </div>
 
@@ -61,4 +90,18 @@
     </div>
 </div>
 
+<!-- MODAL -->
+<div id="order-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>📦 Detail Pesanan</h3>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
 @endsection
+
+@section('js')
+    <script src="{{ asset('js/orders.js') }}"></script>
+@endsection
+
