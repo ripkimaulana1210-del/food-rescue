@@ -12,7 +12,7 @@
         <div class="scan-header">
             <div class="scan-icon">📷</div>
             <h2>Scan QR Pesanan</h2>
-            <p>Arahkan kamera ke kode QR pesanan pelanggan</p>
+            <p>Arahkan kamera ke kode QR pesanan pelanggan untuk menampilkan detail</p>
         </div>
 
         @if (session('success'))

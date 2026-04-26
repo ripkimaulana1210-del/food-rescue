@@ -112,3 +112,11 @@ Route::get('/scan', function () {
 
 Route::post('/scan', [OrderController::class, 'scan'])->name('orders.scan.process');
 
+Route::get('/scan/{code}', [OrderController::class, 'showScanResult'])
+    ->middleware('auth')
+    ->name('orders.scan.result');
+
+Route::post('/orders/complete/{id}', [OrderController::class, 'complete'])
+    ->middleware('auth')
+    ->name('orders.complete');
+

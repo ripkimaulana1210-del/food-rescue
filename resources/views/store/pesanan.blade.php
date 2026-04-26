@@ -29,7 +29,7 @@
             </div>
 
             @forelse ($orders as $order)
-                <div class="order-card" data-order-id="{{ $order->id }}" onclick="showDetail('{{ $order->food->food_name }}', '{{ $order->user->name }}', '{{ $order->qty }}', '{{ number_format($order->total_price) }}', '{{ $order->order_code }}', '{{ $order->id }}', '{{ $order->status }}')">
+                <div class="order-card" data-order-id="{{ $order->id }}" onclick="showDetail('{{ $order->food->food_name }}', '{{ $order->user->name }}', '{{ $order->qty }}', '{{ number_format($order->total_price) }}', '{{ $order->order_code }}', '{{ $order->id }}', '{{ $order->status }}', '{{ $order->payment_method }}')">
 
                     <!-- LEFT -->
                     <div class="order-left">
@@ -75,6 +75,13 @@
                         <button type="submit" class="btn-confirm">✔ Konfirmasi Pembayaran</button>
                     </form>
                 </div>
+                @elseif($order->status == 'paid')
+                <div class="confirm-form">
+                    <form action="{{ route('orders.complete', $order->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn-confirm" style="background: #059669;">✅ Selesaikan Pesanan</button>
+                    </form>
+                </div>
                 @endif
 
             @empty
@@ -113,7 +120,8 @@
                         '{{ number_format($highlightOrder->total_price) }}',
                         '{{ $highlightOrder->order_code }}',
                         '{{ $highlightOrder->id }}',
-                        '{{ $highlightOrder->status }}'
+                        '{{ $highlightOrder->status }}',
+                        '{{ $highlightOrder->payment_method }}'
                     );
                     const card = document.querySelector('[data-order-id="{{ $highlightOrder->id }}"]');
                     if (card) {

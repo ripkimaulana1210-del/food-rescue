@@ -22,7 +22,7 @@
 
         @forelse ($orders as $order)
 
-        <div class="order-card" data-order-id="{{ $order->id }}" onclick="showDetail('{{ $order->food->food_name }}', '{{ $order->food->store_name }}', '{{ $order->qty }}', '{{ number_format($order->total_price) }}', '{{ $order->order_code }}', '{{ $order->id }}', '{{ $order->status }}')">
+        <div class="order-card" data-order-id="{{ $order->id }}" onclick="showDetail('{{ $order->food->food_name }}', '{{ $order->food->store_name }}', '{{ $order->qty }}', '{{ number_format($order->total_price) }}', '{{ $order->order_code }}', '{{ $order->id }}', '{{ $order->status }}', '{{ $order->payment_method }}')">
 
             <!-- LEFT -->
             <div class="order-left">
@@ -46,6 +46,10 @@
                 <div class="order-box">
                     <p>Kode Pesanan</p>
                     <strong>{{ $order->order_code ?? '-' }}</strong>
+                </div>
+                <div class="order-box">
+                    <p>Metode Bayar</p>
+                    <strong>{{ strtoupper($order->payment_method ?? '-') }}</strong>
                 </div>
             </div>
 

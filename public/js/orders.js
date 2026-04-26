@@ -2,7 +2,7 @@
  * Orders - Modal & Detail Functions
  */
 
-function showDetail(food, userOrStore, qty, total, code, id, status) {
+function showDetail(food, userOrStore, qty, total, code, id, status, paymentMethod = '-') {
     let statusClass = '';
     let statusText = '';
 
@@ -44,6 +44,7 @@ function showDetail(food, userOrStore, qty, total, code, id, status) {
                     <strong>Informasi Pesanan</strong>
                     <p>Kode: <b style="color: var(--primary-dark);">${code}</b></p>
                     <p>ID: #${id}</p>
+                    <p>Metode Bayar: <b>${paymentMethod.toUpperCase()}</b></p>
                     <p>Status: <span class="status ${statusClass}" style="display: inline-block; margin-top: 4px;">${statusText}</span></p>
                 </div>
             </div>

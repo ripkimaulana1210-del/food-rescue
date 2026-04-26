@@ -15,7 +15,8 @@ class Order extends Model
         'qty',
         'total_price',
         'status',
-        'order_code' // 🔥 TAMBAHKAN INI
+        'order_code',
+        'payment_method',
     ];
 
     // relasi ke user

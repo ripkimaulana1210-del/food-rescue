@@ -21,9 +21,9 @@
             </svg>
         </div>
 
-        <h2 class="success-title">Pembayaran Berhasil!</h2>
+        <h2 class="success-title">Pesanan Berhasil Dibuat!</h2>
         <p class="success-subtitle">
-            Yeay! Makanan kamu berhasil dipesan dan sudah masuk ke sistem.
+            Yeay! Makanan kamu berhasil dipesan. Tunjukkan QR atau kode pesanan saat pengambilan.
         </p>
 
         <!-- DETAIL PESANAN -->

@@ -52,6 +52,7 @@ class OrderController extends Controller
             'total_price' => $qty * $food->rescue_price,
             'status' => 'pending',
             'order_code' => strtoupper(Str::random(8)),
+            'payment_method' => $request->payment,
         ]);
 
         // Reduce food portions
@@ -69,20 +70,46 @@ class OrderController extends Controller
     public function scan(Request $request)
     {
         $code = strtoupper(trim($request->code ?? $request->manual_code));
-        
+
         $order = Order::where('order_code', $code)->first();
 
         if (!$order) {
             return back()->with('error', 'Pesanan tidak ditemukan');
         }
 
-        if ($order->status !== 'paid') {
-            return back()->with('error', 'Pesanan belum dibayar atau sudah selesai');
-        }
-
-        // Only the store owner can validate this order
+        // Only the store owner can view this order
         if ($order->food->user_id !== auth()->id()) {
             return back()->with('error', 'Anda tidak memiliki akses untuk pesanan ini');
+        }
+
+        return redirect()->route('orders.scan.result', $order->order_code);
+    }
+
+    public function showScanResult($code)
+    {
+        $order = Order::where('order_code', $code)
+            ->with(['food', 'user'])
+            ->firstOrFail();
+
+        // Only the store owner can view this order
+        if ($order->food->user_id !== auth()->id()) {
+            return redirect()->route('store.orders')
+                ->with('error', 'Anda tidak memiliki akses untuk pesanan ini');
+        }
+
+        return view('orders.scan-result', compact('order'));
+    }
+
+    public function complete($id)
+    {
+        $order = Order::with('food')->findOrFail($id);
+
+        if ($order->food->user_id !== auth()->id()) {
+            return back()->with('error', 'Anda tidak memiliki akses');
+        }
+
+        if ($order->status !== 'paid') {
+            return back()->with('error', 'Pesanan belum dibayar');
         }
 
         $order->status = 'done';
@@ -96,7 +123,7 @@ class OrderController extends Controller
         }
 
         return redirect()->route('store.orders')
-            ->with('success', 'Pesanan berhasil divalidasi & selesai')
+            ->with('success', 'Pesanan selesai & makanan diserahkan')
             ->with('highlight_order', $order->id);
     }
 
@@ -144,6 +171,7 @@ class OrderController extends Controller
                     'food_name' => $order->food->food_name,
                     'total_price' => $order->total_price,
                     'qty' => $order->qty,
+                    'payment_method' => $order->payment_method,
                 ];
             });
 
@@ -171,6 +199,7 @@ class OrderController extends Controller
                 'buyer_name' => $order->user->name,
                 'total_price' => $order->total_price,
                 'qty' => $order->qty,
+                'payment_method' => $order->payment_method,
             ];
         });
 
