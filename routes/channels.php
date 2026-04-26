@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,14 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+// Orders channels
+Broadcast::channel('orders.{userId}', function ($user, $userId) {
+    return (int) $user->id === (int) $userId;
+});
+
+Broadcast::channel('store-orders.{storeUserId}', function ($user, $storeUserId) {
+    // Check apakah user adalah pemilik store
+    return (int) $user->id === (int) $storeUserId;
 });

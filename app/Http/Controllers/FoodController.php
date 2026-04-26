@@ -16,7 +16,10 @@ class FoodController extends Controller
 
     public function index()
     {
-        $foods = Food::latest()->get();
+        $foods = Food::where('status', 'available')
+            ->where('expired_at', '>', now())
+            ->latest()
+            ->get();
         return view('foods.marketplace', compact('foods'));
     }
 

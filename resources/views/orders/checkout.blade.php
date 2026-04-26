@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Checkout - Food Rescue')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 @endsection
@@ -8,14 +10,17 @@
 
 <div class="checkout-wrapper">
 
-    <h2 class="checkout-title">Checkout</h2>
+    <div class="checkout-header">
+        <h2>🛒 Checkout</h2>
+        <p>Selesaikan pesananmu dalam beberapa langkah mudah</p>
+    </div>
 
     <div class="checkout-container">
 
-        <!-- ================= ORDER SUMMARY ================= -->
+        <!-- ORDER SUMMARY -->
         <div class="checkout-card order-summary">
 
-            <h4 class="section-title">Ringkasan Pesanan</h4>
+            <h4>📋 Ringkasan Pesanan</h4>
 
             <div class="food-info">
                 <div class="food-detail">
@@ -38,24 +43,21 @@
                 <div class="order-divider"></div>
 
                 <div class="order-row total">
-                    <span>Total</span>
-                    <span class="total-price">
-                        Rp {{ number_format($food->rescue_price * $qty) }}
-                    </span>
+                    <span>Total Pembayaran</span>
+                    <span class="total-price">Rp {{ number_format($food->rescue_price * $qty) }}</span>
                 </div>
             </div>
 
         </div>
 
-        <!-- ================= PAYMENT ================= -->
+        <!-- PAYMENT -->
         <div class="checkout-card payment-card">
 
-            <h4 class="section-title">Metode Pembayaran</h4>
+            <h4>💳 Metode Pembayaran</h4>
 
             <form action="{{ route('orders.store', $food->id) }}" method="POST">
                 @csrf
 
-                <!-- hidden -->
                 <input type="hidden" name="qty" value="{{ $qty }}">
 
                 <div class="payment-options">
@@ -98,9 +100,7 @@
 
                 </div>
 
-                <button type="submit" class="btn-pay">
-                    Bayar Sekarang
-                </button>
+                <button type="submit" class="btn-pay">Bayar Sekarang</button>
 
             </form>
 
@@ -111,3 +111,4 @@
 </div>
 
 @endsection
+

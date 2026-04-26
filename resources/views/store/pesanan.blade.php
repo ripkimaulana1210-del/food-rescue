@@ -1,120 +1,50 @@
 @extends('layouts.app')
 
+@section('title', 'Pesanan Masuk - Food Rescue')
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
-    <style>
-        .filter-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .filter-tab {
-            padding: 8px 18px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            background: #f5f5f5;
-            color: #666;
-            transition: 0.2s;
-        }
-        .filter-tab:hover {
-            background: #eee;
-        }
-        .filter-tab.active {
-            background: var(--green, #4CAF50);
-            color: white;
-        }
-        .confirm-form {
-            text-align: right;
-            margin-top: -10px;
-            margin-bottom: 15px;
-        }
-        .btn-confirm {
-            background: var(--green, #4CAF50);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.85rem;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .btn-confirm:hover {
-            opacity: 0.9;
-        }
-    </style>
+@endsection
+
+@section('meta')
+    <meta name="user-id" content="{{ auth()->id() }}">
+    <meta name="order-type" content="seller">
 @endsection
 
 @section('content')
     <div class="orders-wrapper">
         <div class="orders-container">
 
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:10px;">
+            <div class="orders-header">
                 <h2 class="orders-title">📦 Pesanan Masuk</h2>
-
-                <a href="{{ route('orders.scan') }}" class="btn-scan">
-                    📷 Scan QR
-                </a>
+                <a href="{{ route('orders.scan') }}" class="btn-scan">📷 Scan QR</a>
             </div>
 
             <!-- FILTER TABS -->
             <div class="filter-tabs">
-                <a href="{{ route('store.orders') }}"
-                   class="filter-tab {{ !$status ? 'active' : '' }}">
-                    Semua
-                </a>
-                <a href="{{ route('store.orders', ['status' => 'pending']) }}"
-                   class="filter-tab {{ $status == 'pending' ? 'active' : '' }}">
-                    ⏳ Pending
-                </a>
-                <a href="{{ route('store.orders', ['status' => 'paid']) }}"
-                   class="filter-tab {{ $status == 'paid' ? 'active' : '' }}">
-                    ✔ Paid
-                </a>
-                <a href="{{ route('store.orders', ['status' => 'done']) }}"
-                   class="filter-tab {{ $status == 'done' ? 'active' : '' }}">
-                    ✅ Selesai
-                </a>
+                <a href="{{ route('store.orders') }}" class="filter-tab {{ !$status ? 'active' : '' }}">Semua</a>
+                <a href="{{ route('store.orders', ['status' => 'pending']) }}" class="filter-tab {{ $status == 'pending' ? 'active' : '' }}">⏳ Pending</a>
+                <a href="{{ route('store.orders', ['status' => 'paid']) }}" class="filter-tab {{ $status == 'paid' ? 'active' : '' }}">✔ Paid</a>
+                <a href="{{ route('store.orders', ['status' => 'done']) }}" class="filter-tab {{ $status == 'done' ? 'active' : '' }}">✅ Selesai</a>
             </div>
 
             @forelse ($orders as $order)
-                <div class="order-card"
-                    onclick="showDetail(
-            '{{ $order->food->food_name }}',
-            '{{ $order->user->name }}',
-            '{{ $order->qty }}',
-            '{{ number_format($order->total_price) }}',
-            '{{ $order->order_code }}',
-            '{{ $order->id }}',
-            '{{ $order->status }}'
-        )"
-                    style="cursor:pointer;">
+                <div class="order-card" data-order-id="{{ $order->id }}" onclick="showDetail('{{ $order->food->food_name }}', '{{ $order->user->name }}', '{{ $order->qty }}', '{{ number_format($order->total_price) }}', '{{ $order->order_code }}', '{{ $order->id }}', '{{ $order->status }}')">
 
                     <!-- LEFT -->
                     <div class="order-left">
                         <h3>{{ $order->food->food_name }}</h3>
                         <p class="buyer">👤 {{ $order->user->name }}</p>
-
-                        <p class="order-code">
-                            Kode: <b>{{ $order->order_code }}</b>
-                        </p>
-
-                        <p class="order-id">
-                            ID: #{{ $order->id }}
-                        </p>
+                        <p class="order-code">Kode: <b>{{ $order->order_code }}</b></p>
+                        <p class="order-id">ID: #{{ $order->id }}</p>
                     </div>
 
                     <!-- INFO -->
                     <div class="order-info">
-
                         <div class="order-box">
                             <p>Jumlah</p>
                             <strong>{{ $order->qty }}</strong>
                         </div>
-
                         <div class="order-box">
                             <p>Total</p>
                             <strong>Rp {{ number_format($order->total_price) }}</strong>
@@ -122,7 +52,6 @@
 
                     <!-- RIGHT -->
                     <div class="order-right">
-
                         @if ($order->status == 'paid')
                             <span class="status paid">✔ Paid</span>
                         @elseif($order->status == 'process')
@@ -133,27 +62,26 @@
                             <span class="status pending">⌛ Pending</span>
                         @endif
 
-                        <div style="margin-top:10px;">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ $order->order_code }}"
-                                alt="QR">
+                        <div>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data={{ $order->order_code }}" alt="QR">
                         </div>
 
                 </div>
 
                 @if ($order->status == 'pending')
                 <div class="confirm-form">
-                    <form action="{{ route('orders.confirm', $order->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('orders.confirm', $order->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn-confirm">
-                            ✔ Konfirmasi Pembayaran
-                        </button>
+                        <button type="submit" class="btn-confirm">✔ Konfirmasi Pembayaran</button>
                     </form>
                 </div>
                 @endif
 
             @empty
                 <div class="empty-box">
-                    <p>😢 Belum ada pesanan masuk</p>
+                    <div class="empty-icon">😢</div>
+                    <h3>Belum ada pesanan masuk</h3>
+                    <p>Pesanan dari pelanggan akan muncul di sini</p>
                 </div>
             @endforelse
 
@@ -161,15 +89,41 @@
 
     <div id="order-modal" class="modal">
         <div class="modal-content">
-
-            <span class="close">&times;</span>
-
+            <button class="close" onclick="closeModal()">&times;</button>
             <h3>📦 Detail Pesanan</h3>
-
             <div id="modal-body"></div>
     </div>
 @endsection
 
 @section('js')
     <script src="{{ asset('js/orders.js') }}"></script>
+    <script src="{{ asset('js/realtime.js') }}"></script>
+    @if (session('highlight_order'))
+        @php
+            $highlightOrder = $orders->firstWhere('id', session('highlight_order'));
+        @endphp
+        @if ($highlightOrder)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    showDetail(
+                        '{{ $highlightOrder->food->food_name }}',
+                        '{{ $highlightOrder->user->name }}',
+                        '{{ $highlightOrder->qty }}',
+                        '{{ number_format($highlightOrder->total_price) }}',
+                        '{{ $highlightOrder->order_code }}',
+                        '{{ $highlightOrder->id }}',
+                        '{{ $highlightOrder->status }}'
+                    );
+                    const card = document.querySelector('[data-order-id="{{ $highlightOrder->id }}"]');
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.style.boxShadow = '0 0 0 3px var(--primary)';
+                        setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+                    }
+                }, 500);
+            });
+        </script>
+        @endif
+    @endif
 @endsection

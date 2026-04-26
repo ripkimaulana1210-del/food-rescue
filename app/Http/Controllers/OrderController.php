@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Food;
+use App\Events\OrderStatusUpdated;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,10 @@ class OrderController extends Controller
         $food = Food::findOrFail($id);
         $qty = $request->qty;
 
+        if ($qty > $food->portions) {
+            return redirect()->back()->with('error', 'Porsi tidak mencukupi. Tersisa ' . $food->portions . ' porsi.');
+        }
+
         $order = Order::create([
             'user_id' => auth()->id(),
             'food_id' => $food->id,
@@ -49,6 +54,13 @@ class OrderController extends Controller
             'order_code' => strtoupper(Str::random(8)),
         ]);
 
+        // Reduce food portions
+        $food->portions -= $qty;
+        if ($food->portions <= 0) {
+            $food->status = 'sold_out';
+        }
+        $food->save();
+
         $payment = $request->payment;
 
         return view('orders.payment_success', compact('order', 'payment'));
@@ -56,16 +68,36 @@ class OrderController extends Controller
 
     public function scan(Request $request)
     {
-        $order = Order::where('order_code', $request->code)->first();
+        $code = strtoupper(trim($request->code ?? $request->manual_code));
+        
+        $order = Order::where('order_code', $code)->first();
 
         if (!$order) {
             return back()->with('error', 'Pesanan tidak ditemukan');
         }
 
+        if ($order->status !== 'paid') {
+            return back()->with('error', 'Pesanan belum dibayar atau sudah selesai');
+        }
+
+        // Only the store owner can validate this order
+        if ($order->food->user_id !== auth()->id()) {
+            return back()->with('error', 'Anda tidak memiliki akses untuk pesanan ini');
+        }
+
         $order->status = 'done';
         $order->save();
 
-        return back()->with('success', 'Pesanan berhasil divalidasi & selesai');
+        // Broadcast order status update
+        try {
+            broadcast(new OrderStatusUpdated($order))->toOthers();
+        } catch (\Exception $e) {
+            // Silently ignore broadcast failures
+        }
+
+        return redirect()->route('store.orders')
+            ->with('success', 'Pesanan berhasil divalidasi & selesai')
+            ->with('highlight_order', $order->id);
     }
 
     public function show($id)
@@ -85,6 +117,63 @@ class OrderController extends Controller
         $order->status = 'paid';
         $order->save();
 
+        // Broadcast order status update
+        try {
+            broadcast(new OrderStatusUpdated($order))->toOthers();
+        } catch (\Exception $e) {
+            // Silently ignore broadcast failures
+        }
+
         return back()->with('success', 'Pembayaran berhasil dikonfirmasi');
+    }
+
+    /**
+     * Get buyer's orders updates (for realtime polling)
+     */
+    public function getBuyerOrdersUpdates()
+    {
+        $orders = Order::where('user_id', auth()->id())
+            ->with('food')
+            ->latest()
+            ->get()
+            ->map(function ($order) {
+                return [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'order_code' => $order->order_code,
+                    'food_name' => $order->food->food_name,
+                    'total_price' => $order->total_price,
+                    'qty' => $order->qty,
+                ];
+            });
+
+        return response()->json(['orders' => $orders]);
+    }
+
+    /**
+     * Get seller's orders updates (for realtime polling)
+     */
+    public function getSellerOrdersUpdates()
+    {
+        // Get all orders untuk food milik user
+        $orders = Order::whereHas('food', function ($query) {
+            $query->where('user_id', auth()->id());
+        })
+        ->with('food', 'user')
+        ->latest()
+        ->get()
+        ->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'status' => $order->status,
+                'order_code' => $order->order_code,
+                'food_name' => $order->food->food_name,
+                'buyer_name' => $order->user->name,
+                'total_price' => $order->total_price,
+                'qty' => $order->qty,
+            ];
+        });
+
+        return response()->json(['orders' => $orders]);
     }
 }

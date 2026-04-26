@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Realtime Orders
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/orders/updates/buyer', [OrderController::class, 'getBuyerOrdersUpdates']);
+    Route::get('/orders/updates/seller', [OrderController::class, 'getSellerOrdersUpdates']);
 });

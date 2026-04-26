@@ -1,43 +1,75 @@
-function showDetail(food, userOrStore, qty, total, code, id, status) {
+/**
+ * Orders - Modal & Detail Functions
+ */
 
+function showDetail(food, userOrStore, qty, total, code, id, status) {
+    let statusClass = '';
     let statusText = '';
 
-    if (status === 'paid') statusText = '✔ Paid';
-    else if (status === 'process') statusText = '⏳ Diproses';
-    else if (status === 'done') statusText = '✅ Selesai';
-    else statusText = '⌛ Pending';
+    if (status === 'paid') {
+        statusClass = 'paid';
+        statusText = '✔ Paid';
+    } else if (status === 'process') {
+        statusClass = 'process';
+        statusText = '⏳ Diproses';
+    } else if (status === 'done') {
+        statusClass = 'done';
+        statusText = '✅ Selesai';
+    } else {
+        statusClass = 'pending';
+        statusText = '⌛ Pending';
+    }
 
     let html = `
-        <p><b>Makanan:</b> ${food}</p>
-        <p><b>Toko / Pembeli:</b> ${userOrStore}</p>
-        <p><b>Jumlah:</b> ${qty}</p>
-        <p><b>Total:</b> Rp ${total}</p>
-        <p><b>Kode Pesanan:</b> ${code}</p>
-        <p><b>ID:</b> #${id}</p>
-        <p><b>Status:</b> ${statusText}</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <strong>Makanan</strong>
+                    <p>${food}</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <strong>Detail</strong>
+                    <p>Toko / Pembeli: ${userOrStore}</p>
+                    <p>Jumlah: ${qty} porsi</p>
+                    <p>Total: Rp ${total}</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <strong>Informasi Pesanan</strong>
+                    <p>Kode: <b style="color: var(--primary-dark);">${code}</b></p>
+                    <p>ID: #${id}</p>
+                    <p>Status: <span class="status ${statusClass}" style="display: inline-block; margin-top: 4px;">${statusText}</span></p>
+                </div>
+            </div>
+        </div>
 
-        <div style="margin-top:15px;text-align:center;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${code}">
+        <div style="text-align: center; margin-top: 20px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${code}" alt="QR" style="border-radius: var(--radius-lg); border: 2px solid var(--gray-100); padding: 8px; background: white;">
+            <p style="font-size: 0.8rem; color: var(--gray-400); margin-top: 8px;">Scan QR saat pengambilan</p>
         </div>
     `;
 
     document.getElementById('modal-body').innerHTML = html;
-    document.getElementById('order-modal').style.display = 'block';
+    document.getElementById('order-modal').classList.add('active');
 }
 
-// close modal
+function closeModal() {
+    document.getElementById('order-modal').classList.remove('active');
+}
+
+// Close modal on outside click
 document.addEventListener("DOMContentLoaded", function () {
-    const closeBtn = document.querySelector('.close');
-
-    if (closeBtn) {
-        closeBtn.onclick = function () {
-            document.getElementById('order-modal').style.display = 'none';
-        };
-    }
-
-    window.onclick = function (e) {
-        if (e.target.id === 'order-modal') {
-            document.getElementById('order-modal').style.display = 'none';
+    window.addEventListener('click', function (e) {
+        const modal = document.getElementById('order-modal');
+        if (e.target === modal) {
+            modal.classList.remove('active');
         }
-    };
+    });
 });
+

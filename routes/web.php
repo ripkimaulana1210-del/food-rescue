@@ -32,6 +32,20 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+/* ===================== GOOGLE LOGIN ===================== */
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
+/* ===================== FORGOT / RESET PASSWORD ===================== */
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetCode'])->name('password.email');
+
+Route::get('/verify-code', [AuthController::class, 'showVerifyCodeForm'])->name('password.verify-code');
+Route::post('/verify-code', [AuthController::class, 'verifyCode'])->name('password.verify-code.post');
+
+Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset.post');
+
 /*
 |--------------------------------------------------------------------------
 | USER ACTION
@@ -97,3 +111,4 @@ Route::get('/scan', function () {
 })->middleware('auth')->name('orders.scan');
 
 Route::post('/scan', [OrderController::class, 'scan'])->name('orders.scan.process');
+
