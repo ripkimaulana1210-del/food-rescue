@@ -1,26 +1,22 @@
-/**
- * Orders - Modal & Detail Functions
- */
-
 function showDetail(food, userOrStore, qty, total, code, id, status, paymentMethod = '-') {
     let statusClass = '';
     let statusText = '';
 
     if (status === 'paid') {
         statusClass = 'paid';
-        statusText = '✔ Paid';
+        statusText = 'Paid';
     } else if (status === 'process') {
         statusClass = 'process';
-        statusText = '⏳ Diproses';
+        statusText = 'Diproses';
     } else if (status === 'done') {
         statusClass = 'done';
-        statusText = '✅ Selesai';
+        statusText = 'Selesai';
     } else {
         statusClass = 'pending';
-        statusText = '⌛ Pending';
+        statusText = 'Pending';
     }
 
-    let html = `
+    const html = `
         <div class="timeline">
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
@@ -44,14 +40,14 @@ function showDetail(food, userOrStore, qty, total, code, id, status, paymentMeth
                     <strong>Informasi Pesanan</strong>
                     <p>Kode: <b style="color: var(--primary-dark);">${code}</b></p>
                     <p>ID: #${id}</p>
-                    <p>Metode Bayar: <b>${paymentMethod.toUpperCase()}</b></p>
+                    <p>Metode Bayar: <b>${String(paymentMethod || '-').toUpperCase()}</b></p>
                     <p>Status: <span class="status ${statusClass}" style="display: inline-block; margin-top: 4px;">${statusText}</span></p>
                 </div>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${code}" alt="QR" style="border-radius: var(--radius-lg); border: 2px solid var(--gray-100); padding: 8px; background: white;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${code}" alt="QR" style="border-radius: var(--radius); border: 2px solid var(--gray-100); padding: 8px; background: white;">
             <p style="font-size: 0.8rem; color: var(--gray-400); margin-top: 8px;">Scan QR saat pengambilan</p>
         </div>
     `;
@@ -64,13 +60,12 @@ function closeModal() {
     document.getElementById('order-modal').classList.remove('active');
 }
 
-// Close modal on outside click
-document.addEventListener("DOMContentLoaded", function () {
-    window.addEventListener('click', function (e) {
+document.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener('click', function(e) {
         const modal = document.getElementById('order-modal');
-        if (e.target === modal) {
+
+        if (modal && e.target === modal) {
             modal.classList.remove('active');
         }
     });
 });
-

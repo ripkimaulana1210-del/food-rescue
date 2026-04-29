@@ -177,7 +177,7 @@
     font-size: 0.95rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 0;
     transition: all var(--transition-fast);
 }
 

@@ -3,28 +3,27 @@
 @section('title', 'Reset Password - Food Rescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/auth.css') }}">
 @endsection
 
 @section('content')
 <div class="auth-page">
     <div class="auth-card">
-
         <div class="auth-header">
-            <div class="auth-icon">🔑</div>
+            <div class="auth-brandmark">FR</div>
             <h2>Buat Password Baru</h2>
-            <p>Masukkan password baru untuk akun Anda</p>
+            <p>Gunakan password baru yang mudah kamu ingat dan cukup kuat.</p>
         </div>
 
         @if(session('error'))
             <div class="auth-alert error">
-                <span>✕</span> {{ session('error') }}
+                <span>!</span> {{ session('error') }}
             </div>
         @endif
 
         @if ($errors->any())
             <div class="auth-alert error">
-                <span>✕</span> {{ $errors->first() }}
+                <span>!</span> {{ $errors->first() }}
             </div>
         @endif
 
@@ -32,18 +31,18 @@
             @csrf
 
             <div class="form-group">
-                <label class="form-label">Password Baru</label>
+                <label class="form-label" for="passwordInput">Password Baru</label>
                 <div class="password-wrapper">
                     <input type="password" name="password" class="form-input" id="passwordInput" placeholder="Minimal 6 karakter" required>
-                    <button type="button" class="password-toggle" onclick="togglePassword('passwordInput', this)">👁️</button>
+                    <button type="button" class="password-toggle" onclick="togglePassword('passwordInput', this)">Lihat</button>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Konfirmasi Password Baru</label>
+                <label class="form-label" for="confirmInput">Konfirmasi Password Baru</label>
                 <div class="password-wrapper">
                     <input type="password" name="password_confirmation" class="form-input" id="confirmInput" placeholder="Ulangi password baru" required>
-                    <button type="button" class="password-toggle" onclick="togglePassword('confirmInput', this)">👁️</button>
+                    <button type="button" class="password-toggle" onclick="togglePassword('confirmInput', this)">Lihat</button>
                 </div>
             </div>
 
@@ -53,21 +52,18 @@
         <p class="auth-footer">
             <a href="{{ route('login') }}">Kembali ke Login</a>
         </p>
-
     </div>
 </div>
+@endsection
 
+@section('js')
 <script>
 function togglePassword(inputId, btn) {
     const input = document.getElementById(inputId);
-    if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🙈';
-    } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
-    }
+    const visible = input.type === 'text';
+
+    input.type = visible ? 'password' : 'text';
+    btn.textContent = visible ? 'Lihat' : 'Tutup';
 }
 </script>
 @endsection
-

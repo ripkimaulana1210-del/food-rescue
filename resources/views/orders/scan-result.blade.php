@@ -3,7 +3,7 @@
 @section('title', 'Detail Pesanan - Food Rescue')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/checkout.css') }}">
     <style>
         .scan-result-wrapper {
             max-width: 600px;

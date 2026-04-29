@@ -1,45 +1,57 @@
-/* HEADER */
+.myfoods-page {
+    width: min(100% - 32px, var(--max-width));
+    margin: 0 auto;
+    padding: var(--space-10) 0 var(--space-12);
+}
+
 .myfoods-header {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
-    align-items: center;
-    padding: 2rem 5%;
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
 }
 
-/* GRID */
+.myfoods-header h1 {
+    color: var(--dark);
+    font-size: 2.15rem;
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.myfoods-header p {
+    margin-top: var(--space-2);
+    color: var(--gray-500);
+}
+
 .foods-grid {
     display: grid;
-    grid-template-columns: repeat(3, 300px);
-    justify-content: center;
-    gap: 2rem;
-    padding: 0 5% 4rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-5);
 }
 
-/* CARD */
 .food-card {
-    width: 300px;
-    height: 460px;
-
+    min-height: 460px;
     display: flex;
-    flex-direction: column;
-
-    background: var(--white);
-    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    transition: 0.3s;
+    flex-direction: column;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    background: white;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
 .food-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
 }
 
-/* IMAGE */
 .card-img-box {
-    height: 200px;
-    flex-shrink: 0;
+    height: 190px;
     overflow: hidden;
+    background: var(--gray-100);
 }
 
 .card-img-box img {
@@ -48,167 +60,114 @@
     object-fit: cover;
 }
 
-/* INFO */
 .card-info {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    gap: 0.2rem;
-    overflow: hidden;
-}
-
-.card-info h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.2rem;
-    height: 40px;
-    overflow: hidden;
+    gap: 0.45rem;
+    padding: var(--space-5);
 }
 
 .store {
-    font-size: 0.85rem;
-    color: var(--gray);
-}
-
-.old-price {
-    text-decoration: line-through;
-    color: #aaa;
-    font-size: 0.9rem;
-}
-
-.new-price {
-    color: var(--orange);
-    font-size: 1.3rem;
+    color: var(--secondary);
+    font-size: 0.8rem;
     font-weight: 800;
 }
 
-.location {
-    font-size: 0.85rem;
-    color: var(--gray);
+.card-info h3 {
+    color: var(--dark);
+    font-size: 1.12rem;
+    line-height: 1.32;
+    font-weight: 800;
+}
+
+.card-info p {
+    color: var(--gray-500);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.price-row {
+    display: grid;
+    gap: 0.15rem;
+    margin: var(--space-2) 0;
+}
+
+.old-price {
+    color: var(--gray-400) !important;
+    text-decoration: line-through;
+}
+
+.new-price {
+    color: var(--primary-dark) !important;
+    font-size: 1.28rem !important;
+    font-weight: 800 !important;
 }
 
 .expired {
-    font-size: 0.85rem;
-    color: var(--red);
+    color: var(--error) !important;
 }
 
-/* ACTION */
 .card-actions {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.8rem 1rem;
-    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-top: 1px solid var(--gray-200);
 }
 
-.card-actions .btn {
-    flex: 1;
-    text-align: center;
-    font-size: 0.85rem;
-    padding: 0.5rem 0;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-/* Detail */
-.card-actions .btn-outline {
-    background: transparent;
-    border: 2px solid var(--green) !important;
-    color: var(--green) !important;
-}
-
-.card-actions .btn-outline:hover {
-    background: var(--green);
-    color: white !important;
-}
-
-/* Edit */
-.card-actions .btn-warning {
-    background: #f0a500 !important;
-    border: none !important;
-    color: white !important;
-}
-
-.card-actions .btn-warning:hover {
-    background: #d4920a !important;
-}
-
-/* Hapus */
-.card-actions .btn-danger {
-    background: var(--red) !important;
-    border: none !important;
-    color: white !important;
+.card-actions form,
+.card-actions form .btn {
     width: 100%;
 }
 
-.card-actions .btn-danger:hover {
-    background: #c0392b !important;
+.card-actions .btn {
+    min-height: 38px;
+    padding: 0.55rem;
+    font-size: 0.78rem;
 }
 
-/* Form hapus biar ikut flex */
-.card-actions form {
-    flex: 1;
-    display: flex;
-}
-
-/* EMPTY STATE */
 .empty-state {
     grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5rem 2rem;
-    gap: 1rem;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    padding: var(--space-12);
+    border: 1px dashed var(--gray-300);
+    border-radius: var(--radius);
+    background: white;
     text-align: center;
 }
 
-.empty-icon {
-    font-size: 5rem;
-    line-height: 1;
+.empty-code {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius);
+    color: var(--primary);
+    background: var(--primary-light);
+    font-size: 2rem;
+    font-weight: 800;
 }
 
 .empty-state h3 {
-    font-size: 1.5rem;
-    color: var(--gray);
-    margin: 0;
+    color: var(--dark);
+    font-size: 1.3rem;
 }
 
 .empty-state p {
-    font-size: 1rem;
-    color: var(--gray);
-    margin: 0;
+    max-width: 460px;
+    color: var(--gray-500);
 }
 
-.empty-state .btn-primary {
-    background: var(--green) !important;
-    border: none !important;
-    color: white !important;
-    padding: 0.8rem 2rem;
-    border-radius: 50px !important;
-    font-weight: 700;
-    text-decoration: none;
-    transition: 0.3s;
-    margin-top: 0.5rem;
-}
-
-.empty-state .btn-primary:hover {
-    background: #5A9240 !important;
-    color: white !important;
-}
-
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .foods-grid {
-        grid-template-columns: repeat(2, 300px);
+@media (max-width: 720px) {
+    .myfoods-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
-}
 
-@media (max-width: 600px) {
-    .foods-grid {
-        grid-template-columns: 300px;
+    .myfoods-header .btn {
+        width: 100%;
     }
 }

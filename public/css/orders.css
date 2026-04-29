@@ -31,7 +31,7 @@
 
 .filter-tab {
     padding: 8px 18px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius);
     text-decoration: none;
     font-weight: 600;
     font-size: 0.85rem;
@@ -69,10 +69,10 @@
     align-items: center;
     background: var(--white);
     padding: var(--space-6);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
     transition: all var(--transition);
-    border: 1px solid var(--gray-100);
+    border: 1px solid var(--gray-200);
     cursor: pointer;
 }
 
@@ -85,6 +85,10 @@
 /* Left */
 .order-left {
     flex-shrink: 0;
+}
+
+.order-left-text {
+    min-width: 220px;
 }
 
 .order-left img {
@@ -133,7 +137,7 @@
     color: var(--gray-400);
     margin-bottom: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
     font-weight: 600;
 }
 
@@ -155,10 +159,10 @@
 /* Status */
 .status {
     padding: 8px 16px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius);
     font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
 }
 
 .status.paid {
@@ -205,7 +209,7 @@
     background: var(--gradient-primary);
     color: white;
     padding: 8px 18px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius);
     border: none;
     cursor: pointer;
     font-weight: 700;
@@ -213,6 +217,10 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     transition: all var(--transition-fast);
+}
+
+.btn-complete {
+    background: var(--success) !important;
 }
 
 .btn-confirm:hover {
@@ -225,7 +233,7 @@
     background: var(--gradient-primary);
     color: white;
     padding: 10px 20px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius);
     text-decoration: none;
     font-weight: 700;
     font-size: 0.9rem;
@@ -243,16 +251,24 @@
     text-align: center;
     padding: var(--space-12);
     background: var(--white);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--gray-100);
     color: var(--gray-400);
 }
 
-.empty-box .empty-icon {
-    font-size: 4rem;
-    margin-bottom: var(--space-4);
-    opacity: 0.5;
+.empty-box .empty-icon,
+.empty-box .empty-code {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto var(--space-4);
+    border-radius: var(--radius);
+    color: var(--primary);
+    background: var(--primary-light);
+    font-size: 2rem;
+    font-weight: 800;
 }
 
 .empty-box h3 {
@@ -502,4 +518,3 @@
         padding: 10px 16px;
     }
 }
-

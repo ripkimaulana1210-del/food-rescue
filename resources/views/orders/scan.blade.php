@@ -3,7 +3,7 @@
 @section('title', 'Scan QR - Food Rescue')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/scan.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/scan.css') }}">
 @endsection
 
 @section('content')

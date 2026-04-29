@@ -1,161 +1,138 @@
 @extends('layouts.app')
 
-@section('title', 'Food Rescue - Selamatkan Makanan, Kurangi Limbah')
+@section('title', 'Food Rescue - Selamatkan Makanan Surplus')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/home.css') }}">
 @endsection
 
 @section('content')
 
-<!-- HERO -->
 <header class="hero">
-    <div class="hero-content">
-        <div class="hero-text">
-            <span class="badge-hero">🌍 #ZeroFoodWaste</span>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+        <p class="hero-kicker">Marketplace makanan surplus</p>
+        <h1>Makanan Surplus Terdekat</h1>
+        <p>
+            Temukan hidangan layak konsumsi dari toko dan restoran sekitar.
+            Harga lebih ramah, makanan tidak terbuang, dan pesanan bisa langsung diambil.
+        </p>
 
-            <h1>Makanan Enak, <span>Harga Ramah</span>, Bumi Selamat</h1>
-
-            <p>
-                Ribuan porsi makanan layak konsumsi terbuang setiap harinya.
-                Jadilah pahlawan dengan menyelamatkan makanan dari restoran favoritmu.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="{{ route('foods.index') }}" class="btn btn-primary btn-lg">Jelajahi Makanan</a>
-                <a href="#how-it-works" class="btn btn-outline btn-lg">Cara Kerja</a>
-            </div>
-        </div>
-
-        <div class="hero-image">
-            <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Food Rescue">
+        <div class="hero-actions">
+            <a href="{{ route('foods.index') }}" class="btn btn-primary btn-lg">Jelajahi Marketplace</a>
+            @guest
+                <a href="{{ route('register') }}" class="btn btn-light btn-lg">Daftar Akun</a>
+            @else
+                <a href="{{ route('foods.create') }}" class="btn btn-light btn-lg">Jual Makanan</a>
+            @endguest
         </div>
     </div>
 </header>
 
-<div class="page-container">
-
-    <!-- STATS BAR -->
-    <section class="stats-bar fade-in">
-        <div class="stat-item">
-            <h3>10K+</h3>
-            <p>Makanan Terselamatkan</p>
-        </div>
-        <div class="stat-item">
-            <h3>500+</h3>
-            <p>Mitra Restoran</p>
-        </div>
-        <div class="stat-item">
-            <h3>50K+</h3>
-            <p>Pengguna Aktif</p>
-        </div>
-        <div class="stat-item">
-            <h3>70%</h3>
-            <p>Hemat Biaya</p>
-        </div>
-    </section>
-
-    <!-- HIGHLIGHT -->
-    <section class="highlight">
-        <div class="highlight-container">
-            <div class="highlight-text">
-                <h2>🔥 Makanan Hari Ini</h2>
-                <p>Temukan makanan terbaik yang bisa kamu selamatkan sekarang. Diskon hingga 70% dari harga asli!</p>
-                <a href="{{ route('foods.index') }}" class="btn btn-primary">Lihat Marketplace</a>
-            </div>
-
-            <div class="highlight-image">
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800" alt="Delicious Food">
-            </div>
-        </div>
-    </section>
-
-</div>
-
-<!-- FEATURES -->
-<section id="how-it-works" class="features">
-    <div class="section-title">
-        <h2>Bagaimana Cara Kerjanya?</h2>
-        <p>Tiga langkah mudah untuk mengurangi limbah makanan dan menghemat uang.</p>
+<section class="stats-strip" aria-label="Ringkasan Food Rescue">
+    <div class="stat-item">
+        <strong>10K+</strong>
+        <span>Porsi diselamatkan</span>
     </div>
+    <div class="stat-item">
+        <strong>500+</strong>
+        <span>Mitra aktif</span>
+    </div>
+    <div class="stat-item">
+        <strong>70%</strong>
+        <span>Potensi hemat</span>
+    </div>
+    <div class="stat-item">
+        <strong>24 Jam</strong>
+        <span>Update stok</span>
+    </div>
+</section>
 
-    <div class="steps-grid">
-        <div class="step-card">
-            <span class="step-number">01</span>
-            <div class="step-icon">📱</div>
-            <h3>Temukan Makanan</h3>
-            <p>Cari makanan surplus dari mitra terdekat dengan harga terjangkau.</p>
+<section class="highlight">
+    <div class="highlight-container">
+        <div class="highlight-text">
+            <span class="eyebrow">Pilihan hari ini</span>
+            <h2>Pesan makanan yang masih segar sebelum stok habis.</h2>
+            <p>
+                Setiap listing menampilkan harga asli, harga rescue, sisa porsi,
+                dan lokasi pengambilan agar keputusanmu cepat dan jelas.
+            </p>
+            <a href="{{ route('foods.index') }}" class="btn btn-primary">Lihat Marketplace</a>
         </div>
 
-        <div class="step-card">
-            <span class="step-number">02</span>
-            <div class="step-icon">💳</div>
-            <h3>Pesan & Bayar</h3>
-            <p>Beli dengan harga lebih murah dan bayar secara aman.</p>
-        </div>
-
-        <div class="step-card">
-            <span class="step-number">03</span>
-            <div class="step-icon">🛍️</div>
-            <h3>Ambil Pesanan</h3>
-            <p>Ambil makananmu di lokasi dan nikmati hidangan lezat!</p>
+        <div class="highlight-image">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&auto=format&fit=crop" alt="Makanan siap saji">
         </div>
     </div>
 </section>
 
-<div class="page-container">
+<section id="how-it-works" class="features">
+    <div class="section-title">
+        <span class="eyebrow">Cara kerja</span>
+        <h2>Tiga langkah sederhana</h2>
+        <p>Pilih makanan, selesaikan pesanan, lalu ambil di toko sesuai lokasi.</p>
+    </div>
 
-    <!-- ABOUT -->
-    <section class="about">
-        <div class="about-container">
-            <div class="about-text">
-                <h2>Kenapa Food Rescue? 🌍</h2>
-                <p>
-                    Setiap hari, ribuan makanan terbuang padahal masih layak konsumsi.
-                    Kami hadir untuk menghubungkan restoran dengan kamu.
-                </p>
+    <div class="steps-grid">
+        <article class="step-card">
+            <span class="step-number">01</span>
+            <h3>Temukan Makanan</h3>
+            <p>Cari makanan surplus dari mitra terdekat dan bandingkan harga rescue.</p>
+        </article>
 
-                <div class="about-points">
-                    <div class="point">
-                        <span style="font-size: 2rem;">💸</span>
-                        <div>
-                            <h4>Hemat Hingga 70%</h4>
-                            <p>Dapatkan makanan berkualitas dengan harga terjangkau</p>
-                        </div>
-                    </div>
-                    <div class="point">
-                        <span style="font-size: 2rem;">🌱</span>
-                        <div>
-                            <h4>Peduli Lingkungan</h4>
-                            <p>Kurangi jejak karbon dan limbah makanan</p>
-                        </div>
-                    </div>
-                    <div class="point">
-                        <span style="font-size: 2rem;">⚡</span>
-                        <div>
-                            <h4>Praktis & Cepat</h4>
-                            <p>Pesan dalam hitungan menit, ambil sesuai jadwal</p>
-                        </div>
-                    </div>
+        <article class="step-card">
+            <span class="step-number">02</span>
+            <h3>Pesan dan Bayar</h3>
+            <p>Konfirmasi jumlah porsi, pilih metode pembayaran, lalu simpan kode pesanan.</p>
+        </article>
+
+        <article class="step-card">
+            <span class="step-number">03</span>
+            <h3>Ambil Pesanan</h3>
+            <p>Tunjukkan kode atau QR saat datang ke toko untuk menyelesaikan pengambilan.</p>
+        </article>
+    </div>
+</section>
+
+<section class="about">
+    <div class="about-container">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=900&auto=format&fit=crop" alt="Bahan makanan segar">
+        </div>
+
+        <div class="about-text">
+            <span class="eyebrow">Dampak nyata</span>
+            <h2>Lebih hemat untuk pembeli, lebih minim limbah untuk toko.</h2>
+            <p>
+                Food Rescue membantu toko menjual stok layak konsumsi menjelang batas waktu,
+                sementara pembeli mendapatkan pilihan makanan berkualitas dengan harga lebih terjangkau.
+            </p>
+
+            <div class="about-points">
+                <div class="point">
+                    <strong>Harga transparan</strong>
+                    <span>Lihat harga asli dan harga rescue sebelum checkout.</span>
+                </div>
+                <div class="point">
+                    <strong>Lokasi jelas</strong>
+                    <span>Setiap produk dilengkapi lokasi dan peta pengambilan.</span>
+                </div>
+                <div class="point">
+                    <strong>Alur cepat</strong>
+                    <span>Pesanan, kode, dan status dibuat ringkas untuk transaksi harian.</span>
                 </div>
             </div>
-
-            <div class="about-image">
-                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="About Food Rescue">
-            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CTA -->
-    <section class="cta">
-        <div class="cta-box">
-            <h2>Siap Jadi Pahlawan Makanan? 🍔</h2>
-            <p>Mulai selamatkan makanan & bantu bumi sekarang juga</p>
-            <a href="{{ route('foods.index') }}" class="btn">Mulai Sekarang</a>
-        </div>
-    </section>
-
-</div>
+<section class="cta">
+    <div class="cta-box">
+        <span class="eyebrow">Mulai sekarang</span>
+        <h2>Selamatkan makanan pertama hari ini.</h2>
+        <p>Buka marketplace dan pilih stok makanan surplus yang tersedia di sekitarmu.</p>
+        <a href="{{ route('foods.index') }}" class="btn btn-light">Mulai Jelajah</a>
+    </div>
+</section>
 
 @endsection
-
