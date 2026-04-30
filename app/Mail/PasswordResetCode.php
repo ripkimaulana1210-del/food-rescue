@@ -31,7 +31,7 @@ class PasswordResetCode extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kode Reset Password - Food Rescue',
+            subject: 'Kode Reset Password - FoodRescue',
         );
     }
 

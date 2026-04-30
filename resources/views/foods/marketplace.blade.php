@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Marketplace - Food Rescue')
+@section('title', 'Marketplace - FoodRescue')
 
 @section('css')
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-<link rel="stylesheet" href="{{ secure_asset('css/marketplace.css') }}">
+<link rel="stylesheet" href="{{ asset('css/marketplace.css') }}">
 @endsection
 
 @section('content')
@@ -40,7 +40,7 @@
             <article class="product-card" data-name="{{ strtolower($food->food_name . ' ' . $food->store_name) }}" data-category="makanan">
                 <div class="card-img-box">
                     @if ($food->image)
-                        <img src="{{ secure_asset('storage/' . $food->image) }}" alt="{{ $food->food_name }}">
+                        <img src="{{ asset('storage/' . $food->image) }}" alt="{{ $food->food_name }}">
                     @else
                         <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop" alt="{{ $food->food_name }}">
                     @endif
@@ -100,8 +100,8 @@
 <script>
     const foods = @json($foods);
 </script>
-<script src="{{ secure_asset('js/map.js') }}"></script>
-<script src="{{ secure_asset('js/marketplace.js') }}"></script>
+<script src="{{ asset('js/map.js') }}"></script>
+<script src="{{ asset('js/marketplace.js') }}"></script>
 <script>
 function filterFoods() {
     const query = document.getElementById('searchFood').value.toLowerCase();

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Pembayaran Berhasil - Food Rescue')
+@section('title', 'Pembayaran Berhasil - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/checkout.css') }}">
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 @endsection
 
 @section('content')

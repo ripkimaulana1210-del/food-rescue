@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Produk - Food Rescue')
+@section('title', 'Edit Produk - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/form.css') }}">
+<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 @endsection
 
 @section('content')

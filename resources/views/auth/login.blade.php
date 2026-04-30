@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Login - Food Rescue')
+@section('title', 'Login - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/auth.css') }}">
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endsection
 
 @section('content')

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $food->food_name . ' - Food Rescue')
+@section('title', $food->food_name . ' - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/detail.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 @endsection
 
@@ -27,7 +27,7 @@
     <article class="detail-card">
         <div class="detail-image">
             @if ($food->image)
-                <img src="{{ secure_asset('storage/' . $food->image) }}" alt="{{ $food->food_name }}">
+                <img src="{{ asset('storage/' . $food->image) }}" alt="{{ $food->food_name }}">
             @else
                 <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=900&auto=format&fit=crop" alt="{{ $food->food_name }}">
             @endif
@@ -96,6 +96,6 @@
     const food = @json($food);
 </script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="{{ secure_asset('js/map.js') }}"></script>
-<script src="{{ secure_asset('js/detail.js') }}"></script>
+<script src="{{ asset('js/map.js') }}"></script>
+<script src="{{ asset('js/detail.js') }}"></script>
 @endsection

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Jual Makanan - Food Rescue')
+@section('title', 'Jual Makanan - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/form.css') }}">
+<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 @endsection
 
@@ -89,6 +89,6 @@
 
 @section('js')
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="{{ secure_asset('js/map.js') }}"></script>
-<script src="{{ secure_asset('js/sell.js') }}"></script>
+<script src="{{ asset('js/map.js') }}"></script>
+<script src="{{ asset('js/sell.js') }}"></script>
 @endsection

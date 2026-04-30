@@ -2,15 +2,22 @@
 <html lang="id">
 
 <head>
+    @php
+        $siteLogoFiles = glob(public_path('images/foodrescue-logo.{png,jpg,jpeg,webp,svg}'), GLOB_BRACE) ?: [];
+        $siteLogoPath = $siteLogoFiles ? 'images/' . basename($siteLogoFiles[0]) : null;
+    @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Food Rescue')</title>
+    <title>@yield('title', 'FoodRescue')</title>
     @yield('meta')
+    @if ($siteLogoPath)
+        <link rel="icon" href="{{ asset($siteLogoPath) }}">
+    @endif
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ secure_asset('css/global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     @yield('css')
 </head>
 
@@ -20,9 +27,13 @@
 
     <nav id="navbar">
         <div class="nav-container">
-            <a href="{{ route('home') }}" class="logo" aria-label="Food Rescue">
-                <span class="logo-mark">FR</span>
-                Food<span>Rescue</span>
+            <a href="{{ route('home') }}" class="logo" aria-label="FoodRescue">
+                @if ($siteLogoPath)
+                    <img src="{{ asset($siteLogoPath) }}" alt="" class="site-logo">
+                @else
+                    <span class="logo-mark">FR</span>
+                @endif
+                <span class="logo-text">Food<span>Rescue</span></span>
             </a>
 
             <div class="nav-right">
@@ -83,8 +94,12 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <a href="{{ route('home') }}" class="logo">
-                    <span class="logo-mark">FR</span>
-                    Food<span>Rescue</span>
+                    @if ($siteLogoPath)
+                        <img src="{{ asset($siteLogoPath) }}" alt="" class="site-logo">
+                    @else
+                        <span class="logo-mark">FR</span>
+                    @endif
+                    <span class="logo-text">Food<span>Rescue</span></span>
                 </a>
                 <p>Selamatkan makanan, kurangi limbah, dan nikmati hidangan layak konsumsi dengan harga lebih ramah.</p>
                 <div class="footer-social">
@@ -126,13 +141,13 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} Food Rescue. Dibuat untuk mengurangi food waste.</p>
+            <p>&copy; {{ date('Y') }} FoodRescue. Dibuat untuk mengurangi food waste.</p>
         </div>
     </footer>
 
     <button class="back-to-top" id="backToTop" title="Kembali ke atas">^</button>
 
-    <script src="{{ secure_asset('js/global.js') }}"></script>
+    <script src="{{ asset('js/global.js') }}"></script>
     @yield('js')
 </body>
 

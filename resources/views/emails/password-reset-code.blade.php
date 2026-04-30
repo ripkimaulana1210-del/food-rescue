@@ -71,7 +71,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍔 Food Rescue</h1>
+            <h1>🍔 FoodRescue</h1>
             <p>Kode Verifikasi Reset Password</p>
         </div>
         <div class="body">
@@ -86,7 +86,7 @@
             <p>Jika Anda tidak meminta reset password, abaikan email ini.</p>
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Food Rescue. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} FoodRescue. All rights reserved.</p>
         </div>
     </div>
 </body>

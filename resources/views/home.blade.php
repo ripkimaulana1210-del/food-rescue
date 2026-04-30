@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Food Rescue - Selamatkan Makanan Surplus')
+@section('title', 'FoodRescue - Selamatkan Makanan Surplus')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 @endsection
 
 @section('content')
@@ -29,7 +29,7 @@
     </div>
 </header>
 
-<section class="stats-strip" aria-label="Ringkasan Food Rescue">
+<section class="stats-strip" aria-label="Ringkasan FoodRescue">
     <div class="stat-item">
         <strong>10K+</strong>
         <span>Porsi diselamatkan</span>
@@ -104,7 +104,7 @@
             <span class="eyebrow">Dampak nyata</span>
             <h2>Lebih hemat untuk pembeli, lebih minim limbah untuk toko.</h2>
             <p>
-                Food Rescue membantu toko menjual stok layak konsumsi menjelang batas waktu,
+                FoodRescue membantu toko menjual stok layak konsumsi menjelang batas waktu,
                 sementara pembeli mendapatkan pilihan makanan berkualitas dengan harga lebih terjangkau.
             </p>
 

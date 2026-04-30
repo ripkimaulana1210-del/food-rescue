@@ -1,4 +1,4 @@
-/* Food Rescue design system */
+/* FoodRescue design system */
 :root {
     --primary: #0f766e;
     --primary-dark: #115e59;
@@ -186,10 +186,6 @@ nav.scrolled {
     white-space: nowrap;
 }
 
-.logo span:not(.logo-mark) {
-    color: var(--primary);
-}
-
 .logo-mark {
     width: 36px;
     height: 36px;
@@ -202,6 +198,21 @@ nav.scrolled {
     font-size: 0.82rem;
     font-weight: 800;
     box-shadow: 0 8px 18px rgb(15 118 110 / 0.24);
+}
+
+.logo-text {
+    color: var(--dark);
+}
+
+.logo-text span {
+    color: var(--primary);
+}
+
+.site-logo {
+    width: auto;
+    height: 38px;
+    max-width: 48px;
+    object-fit: contain;
 }
 
 .nav-right,
@@ -783,6 +794,11 @@ footer {
     .logo-mark {
         width: 32px;
         height: 32px;
+    }
+
+    .site-logo {
+        height: 32px;
+        max-width: 40px;
     }
 
     .nav-auth .btn-ghost {

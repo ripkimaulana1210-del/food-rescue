@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Produk Saya - Food Rescue')
+@section('title', 'Produk Saya - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/my-foods.css') }}">
+<link rel="stylesheet" href="{{ asset('css/my-foods.css') }}">
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
             <article class="food-card">
                 <div class="card-img-box">
                     @if ($food->image)
-                        <img src="{{ secure_asset('storage/' . $food->image) }}" alt="{{ $food->food_name }}">
+                        <img src="{{ asset('storage/' . $food->image) }}" alt="{{ $food->food_name }}">
                     @else
                         <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop" alt="{{ $food->food_name }}">
                     @endif

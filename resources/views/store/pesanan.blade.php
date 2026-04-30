@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Pesanan Masuk - Food Rescue')
+@section('title', 'Pesanan Masuk - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/orders.css') }}">
+<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 @endsection
 
 @section('meta')
@@ -103,8 +103,8 @@
 @endsection
 
 @section('js')
-<script src="{{ secure_asset('js/orders.js') }}"></script>
-<script src="{{ secure_asset('js/realtime.js') }}"></script>
+<script src="{{ asset('js/orders.js') }}"></script>
+<script src="{{ asset('js/realtime.js') }}"></script>
 @if (session('highlight_order'))
     @php
         $highlightOrder = $orders->firstWhere('id', session('highlight_order'));

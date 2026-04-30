@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Pesanan Saya - Food Rescue')
+@section('title', 'Pesanan Saya - FoodRescue')
 
 @section('css')
-<link rel="stylesheet" href="{{ secure_asset('css/orders.css') }}">
+<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 @endsection
 
 @section('meta')
@@ -25,7 +25,7 @@
 
                 <div class="order-left">
                     @if ($order->food->image)
-                        <img src="{{ secure_asset('storage/' . $order->food->image) }}" alt="{{ $order->food->food_name }}">
+                        <img src="{{ asset('storage/' . $order->food->image) }}" alt="{{ $order->food->food_name }}">
                     @else
                         <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&auto=format&fit=crop" alt="{{ $order->food->food_name }}">
                     @endif
@@ -89,6 +89,6 @@
 @endsection
 
 @section('js')
-<script src="{{ secure_asset('js/orders.js') }}"></script>
-<script src="{{ secure_asset('js/realtime.js') }}"></script>
+<script src="{{ asset('js/orders.js') }}"></script>
+<script src="{{ asset('js/realtime.js') }}"></script>
 @endsection

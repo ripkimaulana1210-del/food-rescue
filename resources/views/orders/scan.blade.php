@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Scan QR - Food Rescue')
+@section('title', 'Scan QR - FoodRescue')
 
 @section('css')
-    <link rel="stylesheet" href="{{ secure_asset('css/scan.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/scan.css') }}">
 @endsection
 
 @section('content')
