@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Jual Makanan - FoodRescue')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/form.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
@@ -7,95 +9,86 @@
 
 @section('content')
 
-<div class="form-container">
+<section class="form-container">
+    <div class="form-heading">
+        <span class="eyebrow">Mitra toko</span>
+        <h1>Jual Makanan Surplus</h1>
+        <p>Unggah stok makanan layak konsumsi, tentukan harga rescue, lalu pilih lokasi pengambilan.</p>
+    </div>
 
-    <h2>Jual Makanan Surplus 🍱</h2>
-    <p class="form-subtitle">Upload makananmu dan bantu kurangi food waste 🌍</p>
-
-    <form action="/sell" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('foods.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-grid">
-
-            <!-- TOKO -->
             <div class="input-group">
-                <label>Nama Toko</label>
-                <input type="text" name="store_name" placeholder="Contoh: Warung Bu Siti">
-            </div>
-
-            <!-- MAKANAN -->
-            <div class="input-group">
-                <label>Nama Makanan</label>
-                <input type="text" name="food_name" placeholder="Contoh: Nasi Goreng">
-            </div>
-
-            <!-- HARGA -->
-            <div class="input-group">
-                <label>Harga Asli</label>
-                <input type="number" name="original_price">
+                <label for="store_name">Nama Toko</label>
+                <input type="text" id="store_name" name="store_name" placeholder="Contoh: Warung Bu Siti" required>
             </div>
 
             <div class="input-group">
-                <label>Harga Rescue</label>
-                <input type="number" name="rescue_price">
+                <label for="food_name">Nama Makanan</label>
+                <input type="text" id="food_name" name="food_name" placeholder="Contoh: Nasi Goreng" required>
             </div>
 
-            <!-- PORSI -->
             <div class="input-group">
-                <label>Jumlah Porsi</label>
-                <input type="number" name="portions">
+                <label for="original_price">Harga Asli</label>
+                <input type="number" id="original_price" name="original_price" min="0" placeholder="25000" required>
             </div>
 
-            <!-- EXPIRED -->
             <div class="input-group">
-                <label>Kadaluarsa</label>
-                <input type="datetime-local" name="expired_at">
+                <label for="rescue_price">Harga Rescue</label>
+                <input type="number" id="rescue_price" name="rescue_price" min="0" placeholder="15000" required>
             </div>
 
-            <!-- FOTO -->
+            <div class="input-group">
+                <label for="portions">Jumlah Porsi</label>
+                <input type="number" id="portions" name="portions" min="1" placeholder="10" required>
+            </div>
+
+            <div class="input-group">
+                <label for="expired_at">Batas Ambil</label>
+                <input type="datetime-local" id="expired_at" name="expired_at" required>
+            </div>
+
             <div class="input-group full">
-                <label>Foto Makanan</label>
-                <input type="file" name="image">
+                <label for="image">Foto Makanan</label>
+                <input type="file" id="image" name="image" accept="image/*">
             </div>
 
-            <!-- LOKASI -->
             <div class="input-group full">
-                <label>Lokasi (Nama Tempat)</label>
-                <input type="text" name="location" placeholder="Contoh: Jakarta Selatan">
+                <label for="location">Lokasi Pengambilan</label>
+                <input type="text" id="location" name="location" placeholder="Contoh: Jakarta Selatan" required>
             </div>
 
-            <!-- LAT LONG -->
             <div class="input-group">
-                <label>Latitude</label>
+                <label for="lat">Latitude</label>
                 <input type="text" id="lat" name="latitude" readonly>
             </div>
 
             <div class="input-group">
-                <label>Longitude</label>
+                <label for="lng">Longitude</label>
                 <input type="text" id="lng" name="longitude" readonly>
             </div>
-
         </div>
 
-        <!-- MAP -->
         <div class="map-section">
-            <h4>📍 Pilih Lokasi di Map</h4>
+            <div>
+                <span class="eyebrow">Peta</span>
+                <h2>Pilih titik lokasi</h2>
+            </div>
             <div id="map"></div>
         </div>
 
         <button class="btn btn-primary btn-full">
-            Upload Produk 🚀
+            Upload Produk
         </button>
-
     </form>
-
-</div>
+</section>
 
 @endsection
 
-
 @section('js')
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="/js/map.js"></script>
-<script src="/js/sell.js"></script>
+<script src="{{ asset('js/map.js') }}"></script>
+<script src="{{ asset('js/sell.js') }}"></script>
 @endsection

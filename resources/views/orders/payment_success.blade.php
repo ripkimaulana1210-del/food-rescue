@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Pembayaran Berhasil - FoodRescue')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 @endsection
@@ -11,17 +13,17 @@
 
         <!-- ICON -->
         <div class="success-icon">
-            <svg viewBox="0 0 24 24" width="72" height="72"
-                stroke="var(--green, #4CAF50)" stroke-width="2"
+            <svg viewBox="0 0 24 24" width="48" height="48"
+                stroke="var(--primary)" stroke-width="2.5"
                 fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
         </div>
 
-        <h2 class="success-title">Pembayaran Berhasil!</h2>
+        <h2 class="success-title">Pesanan Berhasil Dibuat!</h2>
         <p class="success-subtitle">
-            Yeay! Makanan kamu berhasil dipesan dan sudah masuk ke sistem.
+            Yeay! Makanan kamu berhasil dipesan. Tunjukkan QR atau kode pesanan saat pengambilan.
         </p>
 
         <!-- DETAIL PESANAN -->
@@ -39,28 +41,24 @@
 
             <div class="order-row">
                 <span>Metode Pembayaran</span>
-                <strong>{{ strtoupper($payment) }}</strong>
+                <strong>{{ strtoupper($payment ?? 'N/A') }}</strong>
             </div>
 
             <div class="order-divider"></div>
 
             <div class="order-row">
                 <span>Status</span>
-                <strong style="color: var(--green, #4CAF50);">
-                    {{ ucfirst($order->status) }}
-                </strong>
+                <strong style="color: var(--primary);">{{ ucfirst($order->status) }}</strong>
             </div>
 
         </div>
 
         <!-- QR CODE -->
-        <div style="text-align:center; margin-top:20px;">
-            <p><b>Scan saat pengambilan</b></p>
-
+        <div class="qr-section">
+            <p>📱 Scan saat pengambilan</p>
             <img 
                 src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $order->order_code }}"
                 alt="QR Code"
-                style="margin-top:10px;"
             >
         </div>
 
@@ -72,9 +70,7 @@
         </div>
 
         <!-- ACTION -->
-        <a href="{{ route('orders.index') }}" class="btn-action">
-            Lihat Pesanan Saya
-        </a>
+        <a href="{{ route('orders.index') }}" class="btn-action">Lihat Pesanan Saya</a>
 
     </div>
 
