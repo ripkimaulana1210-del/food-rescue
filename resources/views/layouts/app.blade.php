@@ -133,9 +133,9 @@
             <div class="footer-links">
                 <h4>Kontak</h4>
                 <ul>
-                    <li>hello@foodrescue.com</li>
-                    <li>+62 812-3456-7890</li>
-                    <li>Jakarta, Indonesia</li>
+                    <li>foodrescue121@gmail.com</li>
+                    <li>+62 858-39380-1040</li>
+                    <li>TasikMalaya, Indonesia</li>
                 </ul>
             </div>
         </div>
