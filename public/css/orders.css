@@ -7,6 +7,54 @@
     color: #333;
 }
 
+.orders-page-header {
+    position: relative;
+    max-width: 900px;
+    min-height: 48px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orders-page-header .orders-title {
+    margin-bottom: 0;
+}
+
+.btn-scan {
+    position: absolute;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 18px;
+    border-radius: 8px;
+    background: #2b2b2b;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 800;
+    box-shadow: 0 10px 24px rgba(43,43,43,0.15);
+    transition: 0.22s ease;
+}
+
+.btn-scan span {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: rgba(255,255,255,0.16);
+    font-size: 0.72rem;
+    letter-spacing: 0;
+}
+
+.btn-scan:hover {
+    background: var(--green);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(111,175,79,0.24);
+}
+
 /* CONTAINER */
 .orders-container {
     max-width: 900px;
@@ -21,11 +69,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     background: #fff;
     padding: 20px 25px;
     border-radius: 18px;
-
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
     transition: 0.25s;
     border: 1px solid #f2f2f2;
@@ -48,7 +94,14 @@
     color: #777;
 }
 
-/* INFO (tengah) */
+.order-code,
+.order-id {
+    margin-top: 6px;
+    font-size: 0.88rem;
+    color: #666;
+}
+
+/* INFO */
 .order-info {
     display: flex;
     gap: 40px;
@@ -74,6 +127,23 @@
     text-align: right;
 }
 
+.order-qr {
+    width: 86px;
+    height: 86px;
+    margin-top: 12px;
+    margin-left: auto;
+    padding: 7px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.order-qr img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
 /* STATUS */
 .status {
     padding: 8px 14px;
@@ -83,10 +153,24 @@
     letter-spacing: 0.5px;
 }
 
-/* PAID */
 .status.paid {
     background: rgba(111, 175, 79, 0.15);
     color: #6FAF4F;
+}
+
+.status.process {
+    background: rgba(217, 122, 43, 0.14);
+    color: #c5641d;
+}
+
+.status.done {
+    background: rgba(43, 43, 43, 0.09);
+    color: #333;
+}
+
+.status.pending {
+    background: rgba(196, 74, 58, 0.12);
+    color: #a43b2d;
 }
 
 /* EMPTY */
@@ -104,8 +188,10 @@
     display: none;
     position: fixed;
     z-index: 999;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.5);
 }
 
@@ -121,4 +207,427 @@
     float: right;
     font-size: 22px;
     cursor: pointer;
+}
+
+/* SCAN QR */
+.scan-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 48px;
+}
+
+.scan-card {
+    width: min(100%, 640px);
+    background: #fff;
+    border: 1px solid #ededed;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    padding: 26px;
+}
+
+.scan-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.scan-back {
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.scan-back:hover {
+    color: var(--green);
+}
+
+.scan-badge {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(111, 175, 79, 0.12);
+    color: #4f8438;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.scan-header {
+    text-align: center;
+    margin: 0 auto 22px;
+    max-width: 520px;
+}
+
+.scan-header h2 {
+    margin: 0 0 8px;
+    font-size: 1.85rem;
+    color: #2b2b2b;
+}
+
+.scan-header p {
+    color: #777;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.scan-alert {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 0.92rem;
+}
+
+.scan-alert-success {
+    background: rgba(111, 175, 79, 0.12);
+    color: #4f8438;
+}
+
+.scan-alert-error {
+    background: rgba(196, 74, 58, 0.12);
+    color: #a43b2d;
+}
+
+.scan-mode-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    background: #f7f8f6;
+}
+
+.scan-mode-btn {
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 800;
+    padding: 11px 14px;
+    transition: 0.2s ease;
+}
+
+.scan-mode-btn.active {
+    background: #fff;
+    color: var(--green);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.07);
+}
+
+.scan-controls,
+.scan-upload-panel {
+    margin-bottom: 16px;
+}
+
+.scan-controls label {
+    display: block;
+    margin-bottom: 8px;
+    color: #444;
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.scan-camera-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.scan-camera-row select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #2b2b2b;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 0 12px;
+    outline: none;
+}
+
+.scan-camera-row select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(111,175,79,0.12);
+}
+
+.scan-action-btn,
+.scan-secondary-btn {
+    min-height: 44px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    padding: 0 16px;
+    transition: 0.2s ease;
+}
+
+.scan-action-btn {
+    border: 1px solid var(--green);
+    background: var(--green);
+    color: #fff;
+}
+
+.scan-action-btn:hover {
+    background: #5A9240;
+}
+
+.scan-secondary-btn {
+    border: 1px solid #e4e4e4;
+    background: #fff;
+    color: #444;
+}
+
+.scan-secondary-btn:hover {
+    border-color: #d4d4d4;
+    background: #f7f7f7;
+}
+
+.scan-action-btn:disabled,
+.scan-secondary-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.48;
+}
+
+.scan-upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 24px;
+    border: 1.5px dashed #d9e6d3;
+    border-radius: 8px;
+    background: #fbfdf9;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.scan-upload-box:hover {
+    border-color: var(--green);
+    background: rgba(111,175,79,0.07);
+}
+
+.scan-upload-title {
+    color: #2b2b2b;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.scan-upload-text {
+    color: #777;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.scan-upload-button {
+    margin-top: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #2b2b2b;
+    color: #fff;
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+#qr-file {
+    display: none;
+}
+
+.scan-file-name {
+    margin-top: 9px;
+    color: #777;
+    font-size: 0.84rem;
+    text-align: center;
+}
+
+.scanner-shell {
+    position: relative;
+    overflow: hidden;
+    border: 8px solid #f1f3f0;
+    border-radius: 8px;
+    background: #151515;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.scanner-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: rgba(17,17,17,0.72);
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+#reader {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 390px;
+    border: 0 !important;
+    background: #151515;
+    color: #f7f7f7;
+}
+
+#reader > div:first-child {
+    border: 0 !important;
+}
+
+#reader img {
+    margin-top: 28px;
+}
+
+#reader video {
+    width: 100% !important;
+    min-height: 390px;
+    object-fit: cover;
+}
+
+#reader__dashboard_section_csr button,
+#reader__dashboard_section_swaplink,
+#reader__camera_permission_button {
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    padding: 10px 14px;
+    text-decoration: none;
+}
+
+#reader__dashboard_section_csr button {
+    background: var(--green);
+    color: #fff;
+}
+
+#reader__dashboard_section_swaplink,
+#reader__camera_permission_button {
+    background: #fff;
+    color: #2b2b2b;
+    border: 1px solid #e8e8e8;
+}
+
+#reader__dashboard_section_csr button:hover {
+    background: #5A9240;
+}
+
+#reader__dashboard,
+#reader__scan_region,
+#reader__dashboard_section {
+    font-family: inherit;
+}
+
+.scan-tips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.scan-tips div {
+    padding: 14px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    background: #fbfbfb;
+}
+
+.scan-tips strong,
+.scan-tips span {
+    display: block;
+}
+
+.scan-tips strong {
+    color: #2b2b2b;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.scan-tips span {
+    color: #777;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .orders-page-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .btn-scan {
+        position: static;
+        justify-content: center;
+    }
+
+    .order-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .order-info {
+        width: 100%;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .order-right {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+
+    .order-qr {
+        margin: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .scan-page {
+        padding-top: 8px;
+    }
+
+    .scan-card {
+        padding: 18px;
+    }
+
+    .scan-topbar {
+        margin-bottom: 18px;
+    }
+
+    .scan-header h2 {
+        font-size: 1.42rem;
+    }
+
+    .scan-camera-row {
+        grid-template-columns: 1fr;
+    }
+
+    #reader {
+        min-height: 310px;
+    }
+
+    #reader video {
+        min-height: 310px;
+    }
+
+    .scan-tips {
+        grid-template-columns: 1fr;
+    }
 }
