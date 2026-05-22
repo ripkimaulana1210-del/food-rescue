@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use App\Mail\PasswordResetCode;
-use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -66,53 +64,6 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect('/login');
-    }
-
-    /* ===================== GOOGLE LOGIN ===================== */
-
-    public function redirectToGoogle()
-    {
-        return Socialite::driver('google')->redirect();
-    }
-
-    public function handleGoogleCallback()
-    {
-        try {
-            $googleUser = Socialite::driver('google')->user();
-            
-            $user = User::where('email', $googleUser->getEmail())->first();
-            
-            if ($user) {
-                // Update google_id jika belum ada
-                if (!$user->google_id) {
-                    $user->update([
-                        'google_id' => $googleUser->getId(),
-                        'avatar' => $googleUser->getAvatar(),
-                    ]);
-                }
-            } else {
-                // Buat user baru
-                $user = User::create([
-                    'name' => $googleUser->getName(),
-                    'email' => $googleUser->getEmail(),
-                    'google_id' => $googleUser->getId(),
-                    'avatar' => $googleUser->getAvatar(),
-                    'password' => null,
-                    'role' => 'user', // Default role untuk Google login
-                ]);
-            }
-            
-            Auth::login($user);
-            
-            if ($user->role == 'store') {
-                return redirect('/pesanan');
-            } else {
-                return redirect('/my-orders');
-            }
-            
-        } catch (\Exception $e) {
-            return redirect('/login')->with('error', 'Gagal login dengan Google. Silakan coba lagi.');
-        }
     }
 
     /* ===================== FORGOT PASSWORD ===================== */
@@ -230,4 +181,3 @@ class AuthController extends Controller
         return redirect()->route('login')->with('status', 'Password berhasil direset. Silakan login dengan password baru Anda.');
     }
 }
-

@@ -57,13 +57,9 @@
                     @auth
                         <div class="nav-user">
                             <span class="nav-user-name">{{ auth()->user()->name }}</span>
-                            @if(auth()->user()->avatar)
-                                <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="nav-avatar">
-                            @else
-                                <div class="nav-avatar nav-avatar-fallback">
-                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                </div>
-                            @endif
+                            <div class="nav-avatar nav-avatar-fallback">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button class="btn btn-ghost btn-sm">Logout</button>

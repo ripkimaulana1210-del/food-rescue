@@ -57,13 +57,6 @@
             </button>
         </form>
 
-        <div class="auth-divider">atau daftar dengan</div>
-
-        <a href="{{ route('google.login') }}" class="btn-google">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
-            Lanjutkan dengan Google
-        </a>
-
         <div class="auth-highlights">
             <span>Harga transparan</span>
             <span>Stok real-time</span>
